@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tippskings — Sporttippek, tiszta játékkal</title>
+    <!-- HIVATALOS PAYPAL SDK - CSAK EGYSZER, A HEAD-BEN KÖTELEZŐ MEGADNI -->
+    <script src="https://paypal.com"></script>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -13,20 +15,25 @@
             --primary: #10b981;
             --primary-hover: #059669;
             --premium: #f59e0b;
-            --premium-hover: #d97706;
             --border: #334155;
         }
         
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.5; padding-bottom: 40px; }
-        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
-        .logo { font-size: 1.25rem; font-weight: bold; color: var(--primary); }
-        nav ul { display: flex; list-style: none; gap: 20px; }
+        
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
+        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .header-logo-img { height: 40px; width: 40px; border-radius: 8px; object-fit: cover; border: 1px solid var(--premium); }
+        .logo-text { font-size: 1.25rem; font-weight: bold; color: var(--primary); }
+        
+        nav ul { display: flex; list-style: none; gap: 20px; align-items: center; }
         nav a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; }
         nav a:hover { color: var(--text-color); }
         
         main { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        
         .hero { text-align: center; margin-bottom: 60px; }
+        .hero-logo-img { width: 120px; height: 120px; border-radius: 20px; border: 2px solid var(--premium); margin-bottom: 20px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
         .subtitle { color: var(--primary); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
         h1 { font-size: 2.5rem; margin-bottom: 20px; font-weight: 800; }
         h1 em { color: var(--primary); font-style: normal; }
@@ -60,11 +67,7 @@
         .vip-features li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .vip-features li::before { content: "✓"; color: var(--primary); font-weight: bold; }
         
-        /* SZÉP PRÉMIUM FIZETÉSI GOMBOK KÖZVETLEN LINKEKHEZ */
-        .btn-paypal-direct { display: block; background: #ffc439; color: #111111; text-decoration: none; text-align: center; padding: 14px 20px; border-radius: 25px; font-weight: 700; font-size: 1rem; transition: background 0.2s; margin-top: auto; border: none; }
-        .btn-paypal-direct:hover { background: #f2ba34; }
-        .vip-card.featured .btn-paypal-direct { background: var(--premium); color: #000000; }
-        .vip-card.featured .btn-paypal-direct:hover { background: var(--premium-hover); }
+        .paypal-btn-wrapper { min-height: 50px; margin-top: auto; padding: 5px; }
 
         .contact-section { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; margin-top: 40px; }
         .contact-section h2 { margin-bottom: 10px; font-size: 1.5rem; }
@@ -83,7 +86,10 @@
 <body>
 
     <header>
-        <div class="logo">✓ tippskings</div>
+        <a href="#" class="logo-container">
+            <img src="logo.png" alt="Tippskings Logo" class="header-logo-img">
+            <div class="logo-text">tippskings</div>
+        </a>
         <nav>
             <ul>
                 <li><a href="#tippek">Mai tippek</a></li>
@@ -95,6 +101,7 @@
 
     <main>
         <section class="hero">
+            <img src="logo.png" alt="Tippskings Nagy Logo" class="hero-logo-img">
             <p class="subtitle">Elemzés • Statisztika • Élő Adatok</p>
             <h1>Kevesebb zaj. <em>Több elemzés.</em></h1>
             <p>Friss mai tippek és mérkőzés-előzetesek. Értsd meg a mögöttük álló gondolatmenetet, és dönts felelősen.</p>
@@ -132,9 +139,9 @@
             </div>
         </section>
 
-        <!-- VIP CSOPORT KÖZVETLEN LINKEKKEL -->
+        <!-- VIP CSOPORT -->
         <h2 class="section-title" id="vip">Csatlakozz a VIP Csoporthoz</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 1rem;">Biztonságos, azonnali fizetés bankkártyával vagy PayPal fiókkal.</p>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 1rem;">Biztonságos, közvetlen fizetés az oldalon belül a PayPal hivatalos rendszerével.</p>
         
         <section class="vip-container">
             <!-- Heti Csomag -->
@@ -146,13 +153,3 @@
                         <li>7 napos teljes VIP elérés</li>
                         <li>Napi 2-3 kiemelt tipp</li>
                         <li>Részletes statisztikai indoklás</li>
-                        <li>Rugalmas, heti megújítás</li>
-                    </ul>
-                </div>
-                <!-- KÖZVETLEN HETI FIZETÉSI LINK -->
-                <a href="https://paypal.com" target="_blank" class="btn-paypal-direct">Sárga PayPal / Kártyás Fizetés ↗</a>
-            </div>
-
-            <!-- Havi Csomag (Kiemelt) -->
-            <div class="vip-card featured">
-                
