@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tippskings — Sporttippek, tiszta játékkal</title>
-    <!-- PAYPAL SDK BETÖLTÉSE A BEÉPÍTETT GOMBOKHOZ -->
-    <script src="https://paypal.com"></script>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -49,7 +47,6 @@
         .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 15px; font-size: 0.9rem; }
         .odds-value { background: rgba(16, 185, 129, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-weight: bold; }
         
-        /* KÉTTALPAS VIP ELRENDEZÉS */
         .vip-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
         .vip-card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
         .vip-card:hover { transform: translateY(-3px); }
@@ -62,7 +59,6 @@
         .vip-features li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .vip-features li::before { content: "✓"; color: var(--primary); font-weight: bold; }
         
-        /* PAYPAL GOMB KONTÉNER FORMÁZÁSA */
         .paypal-btn-wrapper { min-height: 50px; margin-top: auto; padding: 5px; }
 
         .contact-section { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; margin-top: 40px; }
@@ -99,7 +95,7 @@
             <p>Friss mai tippek és mérkőzés-előzetesek. Értsd meg a mögöttük álló gondolatmenetet, és dönts felelősen.</p>
         </section>
 
-        <!-- INGYENES TIPPEK SZEKCIÓ -->
+        <!-- INGYENES TIPPEK -->
         <h2 class="section-title">Ingyenes Mai Elemzések</h2>
         <section id="tippek">
             <div class="filters">
@@ -131,7 +127,7 @@
             </div>
         </section>
 
-        <!-- VIP CSOPORT INTEGRÁLT PAYPAL GOMBOKKAL -->
+        <!-- VIP CSOPORT ERINTETLEN PAYPAL KÓDOKKAL -->
         <h2 class="section-title" id="vip">Csatlakozz a VIP Csoporthoz</h2>
         <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 1rem;">Biztonságos, azonnali fizetés közvetlenül a PayPal rendszerén keresztül.</p>
         
@@ -148,9 +144,15 @@
                         <li>Rugalmas, heti megújítás</li>
                     </ul>
                 </div>
-                <!-- PayPal Heti Gomb helye -->
                 <div class="paypal-btn-wrapper">
+                    <!-- HETI PAYPAL INTEGRÁCIÓ EGYBEN -->
                     <div id="paypal-container-NDAZCN4KQWKZQ"></div>
+                    <script src="https://paypal.com"></script>
+                    <script>
+                      paypal.HostedButtons({
+                        hostedButtonId: "NDAZCN4KQWKZQ",
+                      }).render("#paypal-container-NDAZCN4KQWKZQ")
+                    </script>
                 </div>
             </div>
 
@@ -159,5 +161,3 @@
                 <div class="badge">Legjobb Ajánlat</div>
                 <div>
                     <div class="vip-title" style="color: var(--premium);">Havi Bérlet</div>
-                    <div class="vip-price">10 000 Ft <span>/ hónap</span></div>
-                    
