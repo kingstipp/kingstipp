@@ -8,270 +8,54 @@
         :root {
             --bg-color: #0f172a;
             --card-bg: #1e293b;
-            --text-main: #f8fafc;
+            --text-color: #f8fafc;
             --text-muted: #94a3b8;
-            --accent: #38bdf8;
-            --accent-hover: #0ea5e9;
-            --danger: #ef4444;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --border: #334155;
         }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.5;
-            padding: 20px;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #334155;
-            max-width: 1000px;
-            margin: 0 auto 40px auto;
-        }
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 20px;
-        }
-        nav a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        nav a:hover {
-            color: var(--text-main);
-        }
-        .btn-view {
-            background-color: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .btn-view:hover {
-            background-color: var(--accent);
-            color: var(--bg-color);
-        }
-        main {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .hero {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .subtitle {
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.875rem;
-            margin-bottom: 10px;
-        }
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        h1 em {
-            color: var(--accent);
-            font-style: normal;
-        }
-        .hero p {
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 0 auto 30px auto;
-        }
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .btn-primary {
-            background-color: var(--accent);
-            color: var(--bg-color);
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .btn-secondary {
-            background-color: #334155;
-            color: var(--text-main);
-            padding: 12px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-        }
-        .age-limit {
-            font-size: 0.875rem;
-            color: var(--danger);
-        }
-        .demo-match {
-            background-color: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 40px;
-            border: 1px dashed var(--accent);
-        }
-        .demo-match h2 {
-            font-size: 1rem;
-            color: var(--danger);
-            margin-bottom: 20px;
-        }
-        .match-vs {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
-            font-size: 1.25rem;
-            margin-bottom: 20px;
-        }
-        .market {
-            background: #111827;
-            padding: 15px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .odds {
-            color: var(--accent);
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .info-text {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-top: 15px;
-        }
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 60px;
-        }
-        .feature {
-            background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .feature h3 {
-            color: var(--accent);
-            margin-bottom: 10px;
-        }
-        .tips-list {
-            margin-bottom: 60px;
-        }
-        .section-tag {
-            color: var(--accent);
-            text-align: center;
-        }
-        .tips-list h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        .section-desc {
-            text-align: center;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        .filters button {
-            background-color: #334155;
-            color: var(--text-main);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-        .filters button.active {
-            background-color: var(--accent);
-            color: var(--bg-color);
-        }
-        .tips-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .tip-card {
-            background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .league {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-        }
-        .tip-card h3 {
-            margin-bottom: 15px;
-        }
-        .card-footer {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #334155;
-            padding-top: 15px;
-        }
-        .odds-value {
-            color: var(--accent);
-            font-weight: bold;
-        }
-        .status {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-        }
-        .disclaimer {
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            text-align: center;
-            margin-top: 30px;
-        }
-        .details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-        footer {
-            border-top: 1px solid #334155;
-            padding-top: 40px;
-            font-size: 0.875rem;
-        }
-        .responsible {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; bg-color: var(--bg-color); color: var(--text-color); background-color: var(--bg-color); line-height: 1.5; padding-bottom: 40px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
+        .logo { font-size: 1.25rem; font-weight: bold; color: var(--primary); }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; }
+        nav a:hover { color: var(--text-color); }
+        
+        main { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .hero { text-align: center; margin-bottom: 60px; }
+        .subtitle { color: var(--primary); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+        h1 { font-size: 2.5rem; margin-bottom: 20px; font-weight: 800; }
+        h1 em { color: var(--primary); font-style: normal; }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; }
+        
+        .filters { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; }
+        .filters button { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-color); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; white-space: nowrap; transition: all 0.2s; }
+        .filters button.active, .filters button:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
+        
+        .tips-container { display: flex; flex-direction: column; gap: 20px; margin-bottom: 60px; }
+        .tip-card { background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; transition: transform 0.2s; }
+        .tip-card:hover { transform: translateY(-2px); }
+        .league { font-size: 0.8rem; color: var(--primary); font-weight: 600; margin-bottom: 5px; }
+        h3 { font-size: 1.2rem; margin-bottom: 10px; }
+        .market { color: var(--text-muted); margin-bottom: 15px; }
+        .market strong { color: var(--text-color); }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 15px; font-size: 0.9rem; }
+        .odds-value { background: rgba(16, 185, 129, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-weight: bold; }
+        
+        .contact-section { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; margin-top: 40px; }
+        .contact-section h2 { margin-bottom: 10px; font-size: 1.5rem; }
+        .contact-section p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-muted); }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; background: var(--bg-color); border: 1px solid var(--border); color: var(--text-color); border-radius: 6px; font-family: inherit; }
+        .form-group textarea { resize: vertical; height: 100px; }
+        .btn-submit { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; transition: background 0.2s; }
+        .btn-submit:hover { background: var(--primary-hover); }
+        
+        footer { border-top: 1px solid var(--border); max-width: 1200px; margin: 60px auto 0; padding: 20px; font-size: 0.85rem; color: var(--text-muted); text-align: center; }
+        .responsible { margin-bottom: 20px; text-align: justify; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -280,124 +64,103 @@
         <div class="logo">✓ tippskings</div>
         <nav>
             <ul>
-                <li><a href="#">Mai tippek</a></li>
-                <li><a href="#">Hogyan működik?</a></li>
-                <li><a href="#">Felelős játék</a></li>
+                <li><a href="#tippek">Mai tippek</a></li>
+                <li><a href="#kapcsolat">Kapcsolat</a></li>
             </ul>
         </nav>
-        <a href="#" class="btn-view">Tippek megtekintése ↗</a>
     </header>
 
     <main>
         <section class="hero">
             <p class="subtitle">Futball • Elemzés • Statisztika</p>
             <h1>Kevesebb zaj. <em>Több elemzés.</em></h1>
-            <p>Sporttippek és mérkőzés-előzetesek egy helyen. Nézd át a választásokat, értsd meg a mögöttük álló gondolatmenetet, és dönts felelősen.</p>
-            <div class="hero-buttons">
-                <a href="#" class="btn-primary">Mai tippek megtekintése ↘</a>
-                <a href="#" class="btn-secondary">Ismerd meg a módszert</a>
-            </div>
-            <p class="age-limit">18+ • A sportfogadás pénzügyi kockázattal jár.</p>
+            <p>Sporttippek és mérkőzés-előzetesek egy helyen. Nézd át a választásokat, értsd meg a mögöttük állok gondolatmenetet, és dönts felelősen.</p>
         </section>
 
-        <section class="demo-match">
-            <h2>KIEMELT MINTAELŐZETES DEMO ADAT 🔴</h2>
-            <div class="match-vs">
-                <span>Hazai csapat</span>
-                <strong>VS</strong>
-                <span>Vendég csapat</span>
-            </div>
-            <div class="market">
-                <p>Mintapiac: <strong>Mindkét csapat szerez gólt</strong></p>
-                <span class="odds">1.85</span>
-            </div>
-            <p class="info-text">Illusztrációs adat — nem valós mérkőzés vagy aktuális odds.</p>
-        </section>
-
-        <section class="features">
-            <div class="feature">
-                <h3><strong>Átlátható</strong></h3>
-                <p>Világos piacok és indoklások</p>
-            </div>
-            <div class="feature">
-                <h3><strong>Rendszerezett</strong></h3>
-                <p>Tippek sportág és típus szerint</p>
-            </div>
-            <div class="feature">
-                <h3><strong>Felelős</strong></h3>
-                <p>Nincs garantált nyeremény ígérete</p>
-            </div>
-        </section>
-
-        <section class="tips-list">
-            <p class="section-tag">A mai válogatás</p>
-            <h2>Tippek és előzetesek</h2>
-            <p class="section-desc">Bemutató tartalom • Szűrhető lista</p>
-
+        <section id="tippek">
             <div class="filters">
-                <button class="active">Összes</button>
-                <button>Gólpiacok</button>
-                <button>Eredmény</button>
-                <button>Dupla esély</button>
+                <button class="active" onclick="filterTips('all')">Összes</button>
+                <button onclick="filterTips('gol')">Gólpiacok</button>
+                <button onclick="filterTips('eredmeny')">Eredmény</button>
             </div>
 
             <div class="tips-container">
-                <div class="tip-card">
-                    <p class="league">MINTA LIGA · LABDARÚGÁS</p>
-                    <h3>Hazai csapat — Vendég csapat</h3>
-                    <p>Piac: <strong>Mindkét csapat szerez gólt — igen</strong></p>
+                <!-- 1. Tipp (Gólpiac) -->
+                <div class="tip-card" data-category="gol">
+                    <p class="league">BAJNOKOK LIGÁJA</p>
+                    <h3>Real Madrid — Manchester City</h3>
+                    <p class="market">Piac: <strong>Mindkét csapat szerez gólt — Igen</strong></p>
                     <div class="card-footer">
-                        <span class="odds-label">MINTA ODDS</span>
-                        <span class="odds-value">1.85</span>
-                        <span class="status">◇ Elemzendő</span>
+                        <span>Elemzendő</span>
+                        <span class="odds-value">1.65</span>
                     </div>
                 </div>
 
-                <div class="tip-card">
-                    <p class="league">MINTA LIGA · LABDARÚGÁS</p>
-                    <h3>A csapat — B csapat</h3>
-                    <p>Piac: <strong>Hazai győzelem</strong></p>
+                <!-- 2. Tipp (Eredmény) -->
+                <div class="tip-card" data-category="eredmeny">
+                    <p class="league">PREMIER LEAGUE</p>
+                    <h3>Arsenal — Chelsea</h3>
+                    <p class="market">Piac: <strong>Hazai győzelem (1)</strong></p>
                     <div class="card-footer">
-                        <span class="odds-label">MINTA ODDS</span>
-                        <span class="odds-value">2.10</span>
-                        <span class="status">◇ Elemzendő</span>
+                        <span>Elemzendő</span>
+                        <span class="odds-value">1.80</span>
                     </div>
                 </div>
 
-                <div class="tip-card">
-                    <p class="league">MINTA LIGA · LABDARÚGÁS</p>
-                    <h3>C csapat — D csapat</h3>
-                    <p>Piac: <strong>Dupla esély — 1X</strong></p>
+                <!-- 3. Tipp (Gólpiac) -->
+                <div class="tip-card" data-category="gol">
+                    <p class="league">SERIE A</p>
+                    <h3>Inter — AC Milan</h3>
+                    <p class="market">Piac: <strong>Gólok száma — 2.5 felett</strong></p>
                     <div class="card-footer">
-                        <span class="odds-label">MINTA ODDS</span>
-                        <span class="odds-value">1.35</span>
-                        <span class="status">◇ Elemzendő</span>
+                        <span>Elemzendő</span>
+                        <span class="odds-value">1.95</span>
                     </div>
                 </div>
             </div>
-
-            <p class="disclaimer">A fenti csapatnevek, piacok és oddsok kizárólag a weboldal bemutatására szolgáló fiktív példák.</p>
         </section>
 
-        <section class="details">
-            <div class="detail-block">
-                <h3>⌕ Elemzés, nem ígéret</h3>
-                <p>A tippek mellé később meccs-statisztikák, forma, hiányzók és rövid indoklás kerülhet. Egyetlen tipp sem garantál nyereményt.</p>
-            </div>
-            <div class="detail-block">
-                <h3>↗ Átlátható eredménykövetés</h3>
-                <p>Tervezett funkció: minden közzétett tipp eredménye és a hosszú távú mutatók következetes, ellenőrizhető nyilvántartása.</p>
-            </div>
+        <!-- ÚJ ÚRLAP SZEKCIÓ -->
+        <section class="contact-section" id="kapcsolat">
+            <h2>Kapcsolatfelvétel</h2>
+            <p>Kérdésed van, vagy észrevételed az elemzésekkel kapcsolatban? Küldj üzenetet!</p>
+            <form onsubmit="alert('Köszönjük! Az üzenetküldés funkció demó módban van.'); return false;">
+                <div class="form-group">
+                    <label for="email">E-mail címed</label>
+                    <input type="email" id="email" required placeholder="minta@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="message">Üzenet</label>
+                    <textarea id="message" required placeholder="Ide írd az üzeneted..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Üzenet elküldése</button>
+            </form>
         </section>
     </main>
 
     <footer>
-        <p class="responsible"><strong>Felelős játék:</strong> A sportfogadás veszteséggel járhat, és nem tekinthető biztos pénzkereseti módszernek. Csak nagykorúként, kizárólag olyan összeggel játssz, amelynem elvesztése nem veszélyezteti a megélhetésedet. Ne próbáld a veszteségeidet visszanyerni.</p>
-        <div class="footer-bottom">
-            <span>✓ tippskings — Sporttippek, tiszta játékkal.</span>
-            <span>18+ · Bemutató weboldal · © tippskings</span>
-        </div>
+        <p class="responsible"><strong>Felelős játék:</strong> A sportfogadás veszteséggel járhat, és nem tekinthető biztos pénzkereseti módszernek. Csak nagykorúként (18+), kizárólag olyan összeggel játssz, amelynek elvesztése nem veszélyezteti a megélhetésedet. Ne próbáld a veszteségeidet azonnal visszanyerni.</p>
+        <p>© tippskings · Minden jog fenntartva</p>
     </footer>
 
+    <!-- INTERAKTÍV SZŰRŐ SCRIPT -->
+    <script>
+        function filterTips(category) {
+            // Gombok aktív állapotának kezelése
+            const buttons = document.querySelectorAll('.filters button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Kártyák szűrése
+            const cards = document.querySelectorAll('.tip-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
