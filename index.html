@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tippskings — Sporttippek, tiszta játékkal</title>
+    <!-- PAYPAL SDK BETÖLTÉSE A BEÉPÍTETT GOMBOKHOZ -->
+    <script src="https://paypal.com"></script>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -12,6 +14,7 @@
             --text-muted: #94a3b8;
             --primary: #10b981;
             --primary-hover: #059669;
+            --premium: #f59e0b;
             --border: #334155;
         }
         
@@ -30,7 +33,9 @@
         h1 em { color: var(--primary); font-style: normal; }
         .hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; }
         
-        .filters { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; }
+        .section-title { font-size: 1.75rem; margin-bottom: 20px; text-align: center; font-weight: 700; }
+        
+        .filters { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; justify-content: center; }
         .filters button { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-color); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; white-space: nowrap; transition: all 0.2s; }
         .filters button.active, .filters button:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
         
@@ -44,6 +49,22 @@
         .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 15px; font-size: 0.9rem; }
         .odds-value { background: rgba(16, 185, 129, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-weight: bold; }
         
+        /* KÉTTALPAS VIP ELRENDEZÉS */
+        .vip-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .vip-card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
+        .vip-card:hover { transform: translateY(-3px); }
+        .vip-card.featured { border-color: var(--premium); position: relative; }
+        .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--premium); color: #000; font-size: 0.75rem; font-weight: bold; padding: 3px 12px; border-radius: 10px; text-transform: uppercase; }
+        .vip-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
+        .vip-price { font-size: 2rem; font-weight: 800; color: var(--text-color); margin-bottom: 20px; }
+        .vip-price span { font-size: 1rem; color: var(--text-muted); font-weight: normal; }
+        .vip-features { list-style: none; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; text-align: left; padding-left: 10px; }
+        .vip-features li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .vip-features li::before { content: "✓"; color: var(--primary); font-weight: bold; }
+        
+        /* PAYPAL GOMB KONTÉNER FORMÁZÁSA */
+        .paypal-btn-wrapper { min-height: 50px; margin-top: auto; padding: 5px; }
+
         .contact-section { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; margin-top: 40px; }
         .contact-section h2 { margin-bottom: 10px; font-size: 1.5rem; }
         .contact-section p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
@@ -65,6 +86,7 @@
         <nav>
             <ul>
                 <li><a href="#tippek">Mai tippek</a></li>
+                <li><a href="#vip">VIP Tagság</a></li>
                 <li><a href="#kapcsolat">Kapcsolat</a></li>
             </ul>
         </nav>
@@ -77,6 +99,8 @@
             <p>Friss mai tippek és mérkőzés-előzetesek. Értsd meg a mögöttük álló gondolatmenetet, és dönts felelősen.</p>
         </section>
 
+        <!-- INGYENES TIPPEK SZEKCIÓ -->
+        <h2 class="section-title">Ingyenes Mai Elemzések</h2>
         <section id="tippek">
             <div class="filters">
                 <button class="active" onclick="filterTips('all')">Összes mai tipp</button>
@@ -85,9 +109,8 @@
             </div>
 
             <div class="tips-container">
-                <!-- 1. Tipp: Hollandia - Magyarország -->
                 <div class="tip-card" data-category="gol">
-                    <p class="league">NŐI VB-SELEJTEZŐ · KEDD 20:45</p>
+                    <p class="league">NŐI VB-SELEJTEZŐ · MA 20:45</p>
                     <h3>Hollandia (N) — Magyarország (N)</h3>
                     <p class="market">Piac: <strong>Mindkét csapat szerez gólt — Nem</strong></p>
                     <div class="card-footer">
@@ -96,9 +119,8 @@
                     </div>
                 </div>
 
-                <!-- 2. Tipp: Anglia - Görögország -->
                 <div class="tip-card" data-category="eredmeny">
-                    <p class="league">NŐI VB-SELEJTEZŐ · KEDD 20:30</p>
+                    <p class="league">NŐI VB-SELEJTEZŐ · MA 20:30</p>
                     <h3>Anglia (N) — Görögország (N)</h3>
                     <p class="market">Piac: <strong>Hazai győzelem - Hendikep 0-1 (1)</strong></p>
                     <div class="card-footer">
@@ -106,60 +128,36 @@
                         <span class="odds-value">1.40</span>
                     </div>
                 </div>
-
-                <!-- 3. Tipp: Skócia - Csehország -->
-                <div class="tip-card" data-category="gol">
-                    <p class="league">NŐI VB-SELEJTEZŐ · KEDD 20:15</p>
-                    <h3>Skócia (N) — Csehország (N)</h3>
-                    <p class="market">Piac: <strong>Gólok száma — 2.5 felett</strong></p>
-                    <div class="card-footer">
-                        <span>Aktuális tipp</span>
-                        <span class="odds-value">1.85</span>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <section class="contact-section" id="kapcsolat">
-            <h2>Kapcsolatfelvétel</h2>
-            <p>Kérdésed van a mai elemzésekkel kapcsolatban? Küldj üzenetet az alábbi űrlapon!</p>
-            <form onsubmit="alert('Köszönjük! Az üzenetküldés funkció demó módban van.'); return false;">
-                <div class="form-group">
-                    <label for="email">E-mail címed</label>
-                    <input type="email" id="email" required placeholder="minta@email.com">
+        <!-- VIP CSOPORT INTEGRÁLT PAYPAL GOMBOKKAL -->
+        <h2 class="section-title" id="vip">Csatlakozz a VIP Csoporthoz</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 1rem;">Biztonságos, azonnali fizetés közvetlenül a PayPal rendszerén keresztül.</p>
+        
+        <section class="vip-container">
+            <!-- Heti Csomag -->
+            <div class="vip-card">
+                <div>
+                    <div class="vip-title">Heti Tagság</div>
+                    <div class="vip-price">2 000 Ft <span>/ hét</span></div>
+                    <ul class="vip-features">
+                        <li>7 napos teljes VIP elérés</li>
+                        <li>Napi 2-3 kiemelt tipp</li>
+                        <li>Részletes statisztikai indoklás</li>
+                        <li>Rugalmas, heti megújítás</li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label for="message">Üzenet</label>
-                    <textarea id="message" required placeholder="Ide írd az üzeneted..."></textarea>
+                <!-- PayPal Heti Gomb helye -->
+                <div class="paypal-btn-wrapper">
+                    <div id="paypal-container-NDAZCN4KQWKZQ"></div>
                 </div>
-                <button type="submit" class="btn-submit">Üzenet elküldése</button>
-            </form>
-        </section>
-    </main>
+            </div>
 
-    <footer>
-        <p class="responsible"><strong>Felelős játék:</strong> A sportfogadás kockázattal jár, és nem jelent biztos jövedelemforrást. Csak 18 éven felüliek játszhatnak. Kizárólag olyan összeget kockáztass, amelynek elvesztése nem okoz anyagi problémát. Játssz mérsékelten és felelősen!</p>
-        <p>© tippskings · Frissítve: 2026.10.13.</p>
-    </footer>
-
-    <script>
-        function filterTips(category) {
-            const buttons = document.querySelectorAll('.filters button');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            if(event) {
-                event.target.classList.add('active');
-            }
-
-            const cards = document.querySelectorAll('.tip-card');
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-    </script>
-</body>
-                                   </html>
-                                   
+            <!-- Havi Csomag (Kiemelt) -->
+            <div class="vip-card featured">
+                <div class="badge">Legjobb Ajánlat</div>
+                <div>
+                    <div class="vip-title" style="color: var(--premium);">Havi Bérlet</div>
+                    <div class="vip-price">10 000 Ft <span>/ hónap</span></div>
+                    
