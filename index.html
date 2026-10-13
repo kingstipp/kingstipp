@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>tippskings — Sporttippek, tiszta játékkal</title>
-    <!-- HIVATALOS PAYPAL SDK - CSAK EGYSZER, A HEAD-BEN KÖTELEZŐ MEGADNI -->
-    <script src="https://paypal.com"></script>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -14,7 +12,7 @@
             --text-muted: #94a3b8;
             --primary: #10b981;
             --primary-hover: #059669;
-            --premium: #f59e0b;
+            --premium: #FFD140;
             --border: #334155;
         }
         
@@ -67,7 +65,10 @@
         .vip-features li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
         .vip-features li::before { content: "✓"; color: var(--primary); font-weight: bold; }
         
-        .paypal-btn-wrapper { min-height: 50px; margin-top: auto; padding: 5px; }
+        /* PAYPAL HTML FORM STÍLUSOK ILLESZTÉSE */
+        .paypal-form-wrapper { display: flex; justify-content: center; align-items: center; margin-top: auto; padding-top: 15px; }
+        .pp-btn-submit { text-align:center; border:none; border-radius:25px; min-width:14rem; padding:0 2rem; height:2.8rem; font-weight:bold; background-color:#FFD140; color:#000000; font-family:"Helvetica Neue",Arial,sans-serif; font-size:1rem; cursor:pointer; transition: background 0.2s; }
+        .pp-btn-submit:hover { background-color: #f2ba34; }
 
         .contact-section { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; margin-top: 40px; }
         .contact-section h2 { margin-bottom: 10px; font-size: 1.5rem; }
@@ -139,9 +140,9 @@
             </div>
         </section>
 
-        <!-- VIP CSOPORT -->
+        <!-- VIP CSOPORT TISZTA HTML FORM GOMBOKKAL -->
         <h2 class="section-title" id="vip">Csatlakozz a VIP Csoporthoz</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 1rem;">Biztonságos, közvetlen fizetés az oldalon belül a PayPal hivatalos rendszerével.</p>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 1rem;">Biztonságos, azonnali fizetés bankkártyával vagy PayPal fiókkal.</p>
         
         <section class="vip-container">
             <!-- Heti Csomag -->
@@ -149,7 +150,4 @@
                 <div>
                     <div class="vip-title">Heti Tagság</div>
                     <div class="vip-price">2 000 Ft <span>/ hét</span></div>
-                    <ul class="vip-features">
-                        <li>7 napos teljes VIP elérés</li>
-                        <li>Napi 2-3 kiemelt tipp</li>
-                        <li>Részletes statisztikai indoklás</li>
+                    
