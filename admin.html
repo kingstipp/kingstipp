@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="hu">
 <head>
@@ -28,7 +27,6 @@ button{border:0;border-radius:8px;padding:12px 15px;font-size:15px;font-weight:b
 .hidden{display:none!important}
 #message{white-space:pre-wrap;margin:12px 0;color:var(--green)}
 .tip{padding:14px 0;border-bottom:1px solid var(--line)}
-.tip:last-child{border-bottom:0}
 .tip h3{margin:0 0 8px}
 .meta{color:var(--muted);font-size:13px;line-height:1.7}
 .tag{display:inline-block;padding:4px 8px;background:#26384a;border-radius:6px;margin:3px 4px 3px 0}
@@ -38,116 +36,98 @@ button{border:0;border-radius:8px;padding:12px 15px;font-size:15px;font-weight:b
 </head>
 <body>
 <header>
-  <h1>tippskings</h1>
-  <p>Adminisztrációs felület · Sportfogadási tippek</p>
+<h1>tippskings</h1>
+<p>Adminisztrációs felület · Sportfogadási tippek</p>
 </header>
 
 <main>
-  <div id="login" class="panel">
-    <h2>Admin bejelentkezés</h2>
-    <p class="meta">A Supabase-fiókodhoz tartozó e-mail-címmel és jelszóval lépj be.</p>
-    <form id="loginForm">
-      <label for="email">E-mail-cím</label>
-      <input id="email" type="email" autocomplete="username" required>
-      <label for="password">Jelszó</label>
-      <input id="password" type="password" autocomplete="current-password" required>
-      <button class="primary" type="submit">Bejelentkezés</button>
-    </form>
-  </div>
+<section id="login" class="panel">
+<h2>Admin bejelentkezés</h2>
+<p class="meta">Jelentkezz be a Supabase-fiókod e-mail-címével és jelszavával.</p>
+<form id="loginForm">
+<label for="email">E-mail-cím</label>
+<input id="email" type="email" autocomplete="username" required>
+<label for="password">Jelszó</label>
+<input id="password" type="password" autocomplete="current-password" required>
+<button class="primary" type="submit">Bejelentkezés</button>
+</form>
+</section>
 
-  <div id="dashboard" class="hidden">
-    <div class="panel">
-      <h2>Adminisztráció</h2>
-      <p class="meta">Bejelentkezve: <span id="userEmail"></span></p>
-      <button id="logout" class="secondary">Kijelentkezés</button>
-      <div id="message" role="status"></div>
-    </div>
+<section id="dashboard" class="hidden">
+<div class="panel">
+<h2>Adminisztráció</h2>
+<p class="meta">Bejelentkezve: <span id="userEmail"></span></p>
+<button id="logout" class="secondary">Kijelentkezés</button>
+<div id="message" role="status"></div>
+</div>
 
-    <div class="panel">
-      <h2 id="formTitle">Új tipp hozzáadása</h2>
-      <form id="tipForm">
-        <input id="tipId" type="hidden">
-        <div class="grid">
-          <div>
-            <label for="league">Bajnokság</label>
-            <input id="league" required placeholder="Pl. Premier League">
-          </div>
-          <div>
-            <label for="category">Kategória</label>
-            <select id="category">
-              <option value="gol">Gólok</option>
-              <option value="1x2">1X2</option>
-              <option value="mindketto">Mindkét csapat gólt szerez</option>
-              <option value="hendikep">Hendikep</option>
-              <option value="egyeb">Egyéb</option>
-            </select>
-          </div>
-          <div>
-            <label for="home">Hazai csapat</label>
-            <input id="home" required>
-          </div>
-          <div>
-            <label for="away">Vendégcsapat</label>
-            <input id="away" required>
-          </div>
-          <div>
-            <label for="matchTime">Mérkőzés időpontja</label>
-            <input id="matchTime" type="datetime-local">
-          </div>
-          <div>
-            <label for="market">Fogadási tipp</label>
-            <input id="market" required placeholder="Pl. Több mint 2,5 gól">
-          </div>
-          <div>
-            <label for="odds">Odds</label>
-            <input id="odds" type="number" min="1.01" step="0.01" required placeholder="Pl. 1.85">
-          </div>
-          <div>
-            <label for="status">Állapot</label>
-            <select id="status">
-              <option value="draft">Piszkozat</option>
-              <option value="published">Közzétéve</option>
-              <option value="won">Nyertes</option>
-              <option value="lost">Vesztes</option>
-              <option value="void">Érvénytelen</option>
-            </select>
-          </div>
-        </div>
+<div class="panel">
+<h2 id="formTitle">Új tipp hozzáadása</h2>
+<form id="tipForm">
+<input id="tipId" type="hidden">
+<div class="grid">
+<div><label for="league">Bajnokság</label><input id="league" required placeholder="Pl. Premier League"></div>
+<div><label for="category">Kategória</label>
+<select id="category">
+<option value="gol">Gólok</option>
+<option value="1x2">1X2</option>
+<option value="mindketto">Mindkét csapat gólt szerez</option>
+<option value="hendikep">Hendikep</option>
+<option value="egyeb">Egyéb</option>
+</select></div>
+<div><label for="home">Hazai csapat</label><input id="home" required></div>
+<div><label for="away">Vendégcsapat</label><input id="away" required></div>
+<div><label for="matchTime">Mérkőzés időpontja</label><input id="matchTime" type="datetime-local"></div>
+<div><label for="market">Fogadási tipp</label><input id="market" required placeholder="Pl. Több mint 2,5 gól"></div>
+<div><label for="odds">Odds</label><input id="odds" type="number" min="1.01" step="0.01" required placeholder="1.85"></div>
+<div><label for="status">Állapot</label>
+<select id="status">
+<option value="draft">Piszkozat</option>
+<option value="published">Közzétéve</option>
+<option value="won">Nyertes</option>
+<option value="lost">Vesztes</option>
+<option value="void">Érvénytelen</option>
+</select></div>
+</div>
+<label for="vip">Tipp típusa</label>
+<select id="vip">
+<option value="false">Ingyenes</option>
+<option value="true">VIP</option>
+</select>
+<label for="analysis">Elemzés / megjegyzés</label>
+<textarea id="analysis" placeholder="A tipp rövid indoklása..."></textarea>
+<button class="primary" id="saveBtn" type="submit">Tipp mentése</button>
+<button class="secondary" id="cancelEdit" type="button" hidden>Mégse</button>
+</form>
+</div>
 
-        <label for="vip">Tipp típusa</label>
-        <select id="vip">
-          <option value="false">Ingyenes</option>
-          <option value="true">VIP</option>
-        </select>
-
-        <label for="analysis">Elemzés / megjegyzés</label>
-        <textarea id="analysis" placeholder="A tipp rövid indoklása..."></textarea>
-
-        <button class="primary" type="submit" id="saveBtn">Tipp mentése</button>
-        <button class="secondary" type="button" id="cancelEdit" hidden>Mégse</button>
-      </form>
-    </div>
-
-    <div class="panel">
-      <h2>Rögzített tippek</h2>
-      <button id="refresh" class="secondary">Lista frissítése</button>
-      <div id="tipsList">A tippek betöltése...</div>
-    </div>
-  </div>
+<div class="panel">
+<h2>Rögzített tippek</h2>
+<button id="refresh" class="secondary">Lista frissítése</button>
+<div id="tipsList">A tippek betöltése...</div>
+</div>
+</section>
 </main>
 
 <script>
 const SUPABASE_URL = "https://wtioblmrnpdceqvqxtbj.supabase.co";
-const SUPABASE_KEY = "IDE_MASOLD_A_PUBLISHABLE_KULCSOD";
+
+/* A projektedhez korábban megadott publikus anon kulcs */
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0aW9ibG1ybnBkY2VxdnF4dGJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIwNjY5NTksImV4cCI6MjEwNzY0Mjk1OX0.vO9xhwrmD5AhKtgj-9hY0kG8jUcqPSZemjGmeHRq53E";
 
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
 const $ = id => document.getElementById(id);
 let currentUser = null;
 
 function message(text, error = false) {
   $("message").textContent = text;
   $("message").style.color = error ? "#ff8c91" : "#21d49a";
+}
+
+function showLogin() {
+  currentUser = null;
+  $("login").classList.remove("hidden");
+  $("dashboard").classList.add("hidden");
 }
 
 function showDashboard(user) {
@@ -159,26 +139,21 @@ function showDashboard(user) {
 }
 
 async function checkSession() {
-  const { data, error } = await db.auth.getSession();
+  const {data, error} = await db.auth.getSession();
   if (error) {
-    $("message").textContent = error.message;
+    alert("Supabase-hiba: " + error.message);
     return;
   }
-  if (data.session) {
-    showDashboard(data.session.user);
-  } else {
-    $("login").classList.remove("hidden");
-    $("dashboard").classList.add("hidden");
-  }
+  if (data.session) showDashboard(data.session.user);
+  else showLogin();
 }
 
 $("loginForm").addEventListener("submit", async e => {
   e.preventDefault();
-  const { data, error } = await db.auth.signInWithPassword({
+  const {data, error} = await db.auth.signInWithPassword({
     email: $("email").value.trim(),
     password: $("password").value
   });
-
   if (error) {
     alert("Bejelentkezési hiba: " + error.message);
     return;
@@ -187,18 +162,13 @@ $("loginForm").addEventListener("submit", async e => {
 });
 
 $("logout").addEventListener("click", async () => {
-  await db.auth.signOut();
-  currentUser = null;
-  $("dashboard").classList.add("hidden");
-  $("login").classList.remove("hidden");
+  const {error} = await db.auth.signOut();
+  if (error) alert(error.message);
+  else showLogin();
 });
 
 db.auth.onAuthStateChange((event, session) => {
-  if (event === "SIGNED_OUT" || !session) {
-    currentUser = null;
-    $("dashboard").classList.add("hidden");
-    $("login").classList.remove("hidden");
-  }
+  if (event === "SIGNED_OUT") showLogin();
 });
 
 function resetForm() {
@@ -208,7 +178,6 @@ function resetForm() {
   $("saveBtn").textContent = "Tipp mentése";
   $("cancelEdit").hidden = true;
 }
-
 $("cancelEdit").addEventListener("click", resetForm);
 
 $("tipForm").addEventListener("submit", async e => {
@@ -230,66 +199,52 @@ $("tipForm").addEventListener("submit", async e => {
   };
 
   if (!Number.isFinite(tip.odds) || tip.odds <= 1) {
-    return alert("Az odds legyen 1-nél nagyobb szám.");
+    alert("Az odds legyen 1-nél nagyobb szám.");
+    return;
   }
 
   const id = $("tipId").value;
-  let result;
-
-  if (id) {
-    result = await db.from("tips").update(tip).eq("id", Number(id));
-  } else {
-    result = await db.from("tips").insert(tip);
-  }
+  const result = id
+    ? await db.from("tips").update(tip).eq("id", Number(id))
+    : await db.from("tips").insert(tip);
 
   if (result.error) {
     message("Mentési hiba: " + result.error.message, true);
     return;
   }
-
-  message(id ? "Tipp sikeresen módosítva." : "Tipp sikeresen hozzáadva.");
+  message(id ? "Tipp módosítva." : "Tipp hozzáadva.");
   resetForm();
   await loadTips();
 });
 
 async function loadTips() {
   if (!currentUser) return;
-
   $("tipsList").textContent = "Betöltés...";
-  const { data, error } = await db
-    .from("tips")
-    .select("*")
-    .order("created_at", { ascending: false });
+
+  const {data, error} = await db.from("tips")
+    .select("*").order("created_at", {ascending: false});
 
   if (error) {
     $("tipsList").textContent = "Betöltési hiba: " + error.message;
     return;
   }
-
   if (!data.length) {
     $("tipsList").textContent = "Még nincs rögzített tipp.";
     return;
   }
 
   $("tipsList").replaceChildren();
-
   for (const tip of data) {
     const article = document.createElement("article");
     article.className = "tip";
-
     const title = document.createElement("h3");
-    title.textContent = `${tip.home_team} – ${tip.away_team}`;
-
+    title.textContent = tip.home_team + " – " + tip.away_team;
     const meta = document.createElement("div");
     meta.className = "meta";
-    meta.textContent =
-      `${tip.league} · ${tip.market} · Odds: ${tip.odds} · Állapot: ${tip.status}`;
-
-    const tags = document.createElement("div");
+    meta.textContent = `${tip.league} · ${tip.market} · Odds: ${tip.odds} · Állapot: ${tip.status}`;
     const tag = document.createElement("span");
     tag.className = "tag" + (tip.is_vip ? " vip" : "");
     tag.textContent = tip.is_vip ? "VIP" : "Ingyenes";
-    tags.appendChild(tag);
 
     const edit = document.createElement("button");
     edit.className = "secondary";
@@ -301,7 +256,7 @@ async function loadTips() {
     del.textContent = "Törlés";
     del.addEventListener("click", () => deleteTip(tip.id));
 
-    article.append(title, meta, tags, edit, del);
+    article.append(title, meta, tag, document.createElement("br"), edit, del);
     $("tipsList").appendChild(article);
   }
 }
@@ -322,31 +277,26 @@ function editTip(tip) {
     const d = new Date(tip.match_time);
     const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
     $("matchTime").value = local.toISOString().slice(0, 16);
-  } else {
-    $("matchTime").value = "";
-  }
+  } else $("matchTime").value = "";
 
   $("formTitle").textContent = "Tipp szerkesztése";
   $("saveBtn").textContent = "Módosítás mentése";
   $("cancelEdit").hidden = false;
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  window.scrollTo({top: 0, behavior: "smooth"});
 }
 
 async function deleteTip(id) {
   if (!confirm("Biztosan törlöd ezt a tippet?")) return;
-
-  const { error } = await db.from("tips").delete().eq("id", id);
+  const {error} = await db.from("tips").delete().eq("id", id);
   if (error) {
     message("Törlési hiba: " + error.message, true);
     return;
   }
-
   message("Tipp törölve.");
   await loadTips();
 }
 
 $("refresh").addEventListener("click", loadTips);
-
 checkSession();
 </script>
 </body>
