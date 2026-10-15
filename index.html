@@ -1,153 +1,674 @@
+
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>tippskings — Sporttippek, tiszta játékkal</title>
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #10b981;
-            --primary-hover: #059669;
-            --premium: #FFD140;
-            --border: #334155;
-        }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.5; padding-bottom: 40px; }
-        
-        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--border); max-width: 1200px; margin: 0 auto; }
-        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .header-logo-img { height: 40px; width: 40px; border-radius: 8px; object-fit: cover; border: 1px solid var(--premium); }
-        .logo-text { font-size: 1.25rem; font-weight: bold; color: var(--primary); }
-        
-        nav ul { display: flex; list-style: none; gap: 20px; align-items: center; }
-        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.95rem; }
-        nav a:hover { color: var(--text-color); }
-        
-        main { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-        
-        .hero { text-align: center; margin-bottom: 60px; }
-        .hero-logo-img { width: 120px; height: 120px; border-radius: 20px; border: 2px solid var(--premium); margin-bottom: 20px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); }
-        .subtitle { color: var(--primary); font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
-        h1 { font-size: 2.5rem; margin-bottom: 20px; font-weight: 800; }
-        h1 em { color: var(--primary); font-style: normal; }
-        .hero p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; }
-        
-        .section-title { font-size: 1.75rem; margin-bottom: 20px; text-align: center; font-weight: 700; }
-        
-        .filters { display: flex; gap: 10px; margin-bottom: 30px; overflow-x: auto; padding-bottom: 10px; justify-content: center; }
-        .filters button { background: var(--card-bg); border: 1px solid var(--border); color: var(--text-color); padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; white-space: nowrap; transition: all 0.2s; }
-        .filters button.active, .filters button:hover { background: var(--primary); border-color: var(--primary); color: #fff; }
-        
-        .tips-container { display: flex; flex-direction: column; gap: 20px; margin-bottom: 60px; }
-        .tip-card { background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 12px; transition: transform 0.2s; }
-        .tip-card:hover { transform: translateY(-2px); }
-        .league { font-size: 0.8rem; color: var(--primary); font-weight: 600; margin-bottom: 5px; }
-        h3 { font-size: 1.2rem; margin-bottom: 10px; }
-        .market { color: var(--text-muted); margin-bottom: 15px; }
-        .market strong { color: var(--text-color); }
-        .card-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 15px; font-size: 0.9rem; }
-        .odds-value { background: rgba(16, 185, 129, 0.1); color: var(--primary); padding: 4px 10px; border-radius: 6px; font-weight: bold; }
-        
-        .vip-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .vip-card { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
-        .vip-card:hover { transform: translateY(-3px); }
-        .vip-card.featured { border-color: var(--premium); position: relative; }
-        .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--premium); color: #000; font-size: 0.75rem; font-weight: bold; padding: 3px 12px; border-radius: 10px; text-transform: uppercase; }
-        .vip-title { font-size: 1.4rem; font-weight: bold; margin-bottom: 15px; }
-        .vip-price { font-size: 2rem; font-weight: 800; color: var(--text-color); margin-bottom: 20px; }
-        .vip-price span { font-size: 1rem; color: var(--text-muted); font-weight: normal; }
-        .vip-features { list-style: none; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 30px; text-align: left; padding-left: 10px; }
-        .vip-features li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .vip-features li::before { content: "✓"; color: var(--primary); font-weight: bold; }
-        
-        /* PAYPAL HTML FORM STÍLUSOK ILLESZTÉSE */
-        .paypal-form-wrapper { display: flex; justify-content: center; align-items: center; margin-top: auto; padding-top: 15px; }
-        .pp-btn-submit { text-align:center; border:none; border-radius:25px; min-width:14rem; padding:0 2rem; height:2.8rem; font-weight:bold; background-color:#FFD140; color:#000000; font-family:"Helvetica Neue",Arial,sans-serif; font-size:1rem; cursor:pointer; transition: background 0.2s; }
-        .pp-btn-submit:hover { background-color: #f2ba34; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Sporttippek, mérkőzéselemzések és statisztikák a tippskings oldalán.">
+  <title>tippskings — Sporttippek, tiszta játékkal</title>
 
-        .contact-section { background: var(--card-bg); border: 1px solid var(--border); padding: 30px; border-radius: 12px; margin-top: 40px; }
-        .contact-section h2 { margin-bottom: 10px; font-size: 1.5rem; }
-        .contact-section p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: var(--text-muted); }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; background: var(--bg-color); border: 1px solid var(--border); color: var(--text-color); border-radius: 6px; font-family: inherit; }
-        .form-group textarea { resize: vertical; height: 100px; }
-        .btn-submit { background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; transition: background 0.2s; }
-        .btn-submit:hover { background: var(--primary-hover); }
-        
-        footer { border-top: 1px solid var(--border); max-width: 1200px; margin: 60px auto 0; padding: 20px; font-size: 0.85rem; color: var(--text-muted); text-align: center; }
-        .responsible { margin-bottom: 20px; text-align: justify; line-height: 1.6; }
-    </style>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --green: #10b981;
+      --green-hover: #059669;
+      --gold: #ffd140;
+      --border: #334155;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding-bottom: 25px;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: auto;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .header-logo-img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--gold);
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--green);
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      gap: 16px;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+    }
+
+    nav a:hover { color: var(--green); }
+
+    main {
+      max-width: 850px;
+      margin: 35px auto;
+      padding: 0 18px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 55px;
+      padding: 20px 0;
+    }
+
+    .hero-logo-img {
+      width: 115px;
+      height: 115px;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 2px solid var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .subtitle {
+      color: var(--green);
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: .05em;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 2.8rem);
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    h1 em {
+      color: var(--green);
+      font-style: normal;
+    }
+
+    .hero-description {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.5rem, 4vw, 1.85rem);
+      margin: 35px 0 20px;
+    }
+
+    .section-intro {
+      text-align: center;
+      color: var(--muted);
+      margin: 0 auto 25px;
+      max-width: 650px;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 22px;
+    }
+
+    .filters button,
+    .action-button {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      padding: 10px 15px;
+      border-radius: 22px;
+      cursor: pointer;
+      font: inherit;
+      font-size: .9rem;
+    }
+
+    .filters button.active,
+    .filters button:hover,
+    .action-button {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .tips-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 55px;
+    }
+
+    .tip-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 20px;
+      border-radius: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .league {
+      font-size: .82rem;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .tip-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+    }
+
+    .market {
+      color: var(--muted);
+      margin-bottom: 15px;
+    }
+
+    .market strong { color: var(--text); }
+
+    .analysis {
+      color: var(--muted);
+      margin-bottom: 15px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+      font-size: .9rem;
+    }
+
+    .odds-value {
+      display: inline-block;
+      background: rgba(16, 185, 129, .13);
+      color: var(--green);
+      padding: 4px 11px;
+      border-radius: 6px;
+      font-weight: 800;
+    }
+
+    .notice {
+      text-align: center;
+      color: var(--muted);
+      padding: 22px 15px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .vip-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+      gap: 20px;
+      margin: 30px auto 55px;
+    }
+
+    .vip-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      text-align: center;
+    }
+
+    .vip-card.featured { border-color: var(--gold); }
+
+    .vip-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .vip-price {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+    }
+
+    .vip-price span {
+      font-size: .95rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .vip-features {
+      list-style: none;
+      color: var(--muted);
+      text-align: left;
+      margin: 15px 0;
+    }
+
+    .vip-features li { margin: 9px 0; }
+    .vip-features li::before {
+      content: "✓ ";
+      color: var(--green);
+      font-weight: bold;
+    }
+
+    .vip-link {
+      display: inline-block;
+      width: 100%;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 25px;
+      text-decoration: none;
+      background: var(--gold);
+      color: #111827;
+      font-weight: 800;
+    }
+
+    .contact-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 25px;
+    }
+
+    .contact-section h2 { margin-bottom: 10px; }
+
+    .contact-section p {
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+
+    .form-group { margin-bottom: 15px; }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font: inherit;
+    }
+
+    .form-group textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .action-button {
+      width: 100%;
+      border-radius: 7px;
+      font-weight: 700;
+    }
+
+    footer {
+      max-width: 1200px;
+      margin: 45px auto 0;
+      padding: 22px 18px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      font-size: .85rem;
+    }
+
+    .responsible { margin-bottom: 12px; }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav ul { gap: 12px; }
+      nav a { font-size: .85rem; }
+      main { margin-top: 20px; }
+      .tip-card { padding: 16px; }
+      .contact-section { padding: 18px; }
+    }
+  </style>
 </head>
+
 <body>
+  <header>
+    <a href="#" class="logo-container" aria-label="tippskings főoldal">
+      <img src="logo.png" alt="Tippskings logó" class="header-logo-img">
+      <span class="logo-text">tippskings</span>
+    </a>
 
-    <header>
-        <a href="#" class="logo-container">
-            <img src="logo.png" alt="Tippskings Logo" class="header-logo-img">
-            <div class="logo-text">tippskings</div>
-        </a>
-        <nav>
-            <ul>
-                <li><a href="#tippek">Mai tippek</a></li>
-                <li><a href="#vip">VIP Tagság</a></li>
-                <li><a href="#kapcsolat">Kapcsolat</a></li>
-            </ul>
-        </nav>
-    </header>
+    <nav aria-label="Fő navigáció">
+      <ul>
+        <li><a href="#tippek">Mai tippek</a></li>
+        <li><a href="#vip">VIP tagság</a></li>
+        <li><a href="#kapcsolat">Kapcsolat</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <main>
-        <section class="hero">
-            <img src="logo.png" alt="Tippskings Nagy Logo" class="hero-logo-img">
-            <p class="subtitle">Elemzés • Statisztika • Élő Adatok</p>
-            <h1>Kevesebb zaj. <em>Több elemzés.</em></h1>
-            <p>Friss mai tippek és mérkőzés-előzetesek. Értsd meg a mögöttük álló gondolatmenetet, és dönts felelősen.</p>
-        </section>
+  <main>
+    <section class="hero">
+      <img src="logo.png" alt="Tippskings logó" class="hero-logo-img">
+      <p class="subtitle">Elemzés • Statisztika • Mérkőzések</p>
+      <h1>Kevesebb zaj. <em>Több elemzés.</em></h1>
+      <p class="hero-description">
+        Mérkőzés-előzetesek és sporttippek. Ismerd meg az elemzéseket,
+        és dönts felelősen.
+      </p>
+    </section>
 
-        <!-- INGYENES TIPPEK -->
-        <h2 class="section-title">Ingyenes Mai Elemzések</h2>
-        <section id="tippek">
-            <div class="filters">
-                <button class="active" onclick="filterTips('all')">Összes mai tipp</button>
-                <button onclick="filterTips('gol')">Gólpiacok</button>
-                <button onclick="filterTips('eredmeny')">Eredmény</button>
-            </div>
+    <section id="tippek">
+      <h2 class="section-title">Ingyenes tippek</h2>
+      <p class="section-intro">
+        Az adminfelületen közzétett ingyenes tippek automatikusan jelennek meg itt.
+      </p>
 
-            <div class="tips-container">
-                <div class="tip-card" data-category="gol">
-                    <p class="league">NŐI VB-SELEJTEZŐ · MA 20:45</p>
-                    <h3>Hollandia (N) — Magyarország (N)</h3>
-                    <p class="market">Piac: <strong>Mindkét csapat szerez gólt — Nem</strong></p>
-                    <div class="card-footer">
-                        <span>Aktuális tipp</span>
-                        <span class="odds-value">1.55</span>
-                    </div>
-                </div>
+      <div class="filters" aria-label="Tippek szűrése">
+        <button type="button" class="active" data-filter="all">Összes tipp</button>
+        <button type="button" data-filter="gol">Gólpiacok</button>
+        <button type="button" data-filter="eredmeny">Eredmény</button>
+      </div>
 
-                <div class="tip-card" data-category="eredmeny">
-                    <p class="league">NŐI VB-SELEJTEZŐ · MA 20:30</p>
-                    <h3>Anglia (N) — Görögország (N)</h3>
-                    <p class="market">Piac: <strong>Hazai győzelem - Hendikep 0-1 (1)</strong></p>
-                    <div class="card-footer">
-                        <span>Aktuális tipp</span>
-                        <span class="odds-value">1.40</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <p id="tips-status" class="notice" role="status" aria-live="polite">
+        Tippek betöltése...
+      </p>
 
-        <!-- VIP CSOPORT TISZTA HTML FORM GOMBOKKAL -->
-        <h2 class="section-title" id="vip">Csatlakozz a VIP Csoporthoz</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px; font-size: 1rem;">Biztonságos, azonnali fizetés bankkártyával vagy PayPal fiókkal.</p>
-        
-        <section class="vip-container">
-            <!-- Heti Csomag -->
-            <div class="vip-card">
-                <div>
-                    <div class="vip-title">Heti Tagság</div>
-                    <div class="vip-price">2 000 Ft <span>/ hét</span></div>
-                    
+      <div id="tips-container" class="tips-container"></div>
+    </section>
+
+    <section id="vip">
+      <h2 class="section-title">VIP tagság</h2>
+      <p class="section-intro">
+        VIP elemzések és további tartalmak. A tagság megvásárlása előtt
+        ellenőrizd a feltételeket és az árakat.
+      </p>
+
+      <div class="vip-container">
+        <article class="vip-card">
+          <h3 class="vip-title">Heti tagság</h3>
+          <p class="vip-price">2 000 Ft <span>/ hét</span></p>
+          <ul class="vip-features">
+            <li>VIP-tartalmak a tagság ideje alatt</li>
+            <li>Részletesebb mérkőzéselemzések</li>
+            <li>Előre megadott tagsági időtartam</li>
+          </ul>
+          <a class="vip-link" href="#kapcsolat">Érdeklődöm</a>
+        </article>
+
+        <article class="vip-card featured">
+          <h3 class="vip-title">Havi tagság</h3>
+          <p class="vip-price">Ár egyeztetés szerint</p>
+          <ul class="vip-features">
+            <li>VIP-tartalmak a tagság ideje alatt</li>
+            <li>Részletesebb mérkőzéselemzések</li>
+            <li>Tagsági feltételek előzetes egyeztetése</li>
+          </ul>
+          <a class="vip-link" href="#kapcsolat">Érdeklődöm</a>
+        </article>
+      </div>
+
+      <p class="section-intro">
+        A VIP-fizetés még nincs összekötve a PayPallal. Fizetési gombot csak
+        a saját, ellenőrzött fizetési hivatkozásod megadásával aktiválj.
+      </p>
+    </section>
+
+    <section id="kapcsolat" class="contact-section">
+      <h2>Kapcsolat</h2>
+      <p>
+        Kapcsolatfelvételhez használd a saját, közzétett e-mail-címedet.
+        Az űrlap csak a beállítása után küld üzenetet.
+      </p>
+
+      <form id="contact-form">
+        <div class="form-group">
+          <label for="contact-name">Név</label>
+          <input id="contact-name" name="name" required maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-email">E-mail-cím</label>
+          <input id="contact-email" name="email" type="email" required maxlength="200">
+        </div>
+
+        <div class="form-group">
+          <label for="contact-message">Üzenet</label>
+          <textarea id="contact-message" name="message" required maxlength="3000"></textarea>
+        </div>
+
+        <button type="submit" class="action-button">Üzenet előkészítése</button>
+        <p id="contact-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p class="responsible">
+      A sportfogadás pénzügyi kockázattal jár, és veszteség is előfordulhat.
+      A tippek nem garantálnak nyereményt. Csak felelősen, a saját lehetőségeid
+      figyelembevételével dönts.
+    </p>
+    <p>© <span id="year"></span> tippskings</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // A Supabase projekt adatai.
+    // A publikus publishable vagy anon kulcs használható a böngészőben.
+    // SOHA ne másolj ide service_role vagy sb_secret kulcsot.
+    const SUPABASE_URL = "https://wtioblmrnpdceqvqxtbj.supabase.co";
+    const SUPABASE_KEY = "IDE_MASOLD_A_MAR_MUKODO_ADMIN_KULCSOD";
+
+    const tipsContainer = document.getElementById("tips-container");
+    const tipsStatus = document.getElementById("tips-status");
+    const filterButtons = document.querySelectorAll("[data-filter]");
+
+    let allTips = [];
+    let currentFilter = "all";
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function formatMatchTime(value) {
+      if (!value) return "Időpont nincs megadva";
+
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "Időpont nincs megadva";
+
+      return new Intl.DateTimeFormat("hu-HU", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(date);
+    }
+
+    function makeElement(tag, className, text) {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      if (text !== undefined) element.textContent = text;
+      return element;
+    }
+
+    function renderTips() {
+      tipsContainer.replaceChildren();
+
+      const filtered = allTips.filter(tip => {
+        if (currentFilter === "all") return true;
+        return tip.category === currentFilter;
+      });
+
+      if (filtered.length === 0) {
+        tipsStatus.hidden = false;
+        tipsStatus.textContent = allTips.length === 0
+          ? "Jelenleg nincs közzétett ingyenes tipp. Nézz vissza később!"
+          : "Ebben a kategóriában jelenleg nincs közzétett tipp.";
+        return;
+      }
+
+      tipsStatus.hidden = true;
+
+      filtered.forEach(tip => {
+        const card = makeElement("article", "tip-card");
+
+        const league = makeElement(
+          "p",
+          "league",
+          (tip.league || "Bajnokság nincs megadva") +
+          " · " + formatMatchTime(tip.match_time)
+        );
+
+        const title = makeElement(
+          "h3",
+          "",
+          (tip.home_team || "Hazai csapat") +
+          " — " +
+          (tip.away_team || "Vendégcsapat")
+        );
+
+        const market = makeElement("p", "market");
+        market.append(document.createTextNode("Piac: "));
+        market.append(makeElement("strong", "", tip.market || "Nincs megadva"));
+
+        card.append(league, title, market);
+
+        if (tip.analysis) {
+          card.append(makeElement("p", "analysis", tip.analysis));
+        }
+
+        const footer = makeElement("div", "card-footer");
+        footer.append(makeElement("span", "", "Tipp odds"));
+
+        const odds = Number(tip.odds);
+        footer.append(makeElement(
+          "span",
+          "odds-value",
+          Number.isFinite(odds) ? odds.toFixed(2) : "—"
+        ));
+
+        card.append(footer);
+        tipsContainer.append(card);
+      });
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
+
+        filterButtons.forEach(item => {
+          item.classList.toggle("active", item === button);
+        });
+
+        renderTips();
+      });
+    });
+
+    async function loadTips() {
+      if (
+        !window.supabase ||
+        !SUPABASE_KEY ||
+        SUPABASE_KEY.startsWith("IDE_MASOLD")
+      ) {
+        tipsStatus.hidden = false;
+        tipsStatus.textContent =
+          "A Supabase-kulcs még nincs beállítva. Szerkeszd az index.html fájlban a SUPABASE_KEY sort.";
+        return;
+      }
+
+      const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+      try {
+        const { data, error } = await db
+          .from("tips")
+          .select("id, league, home_team, away_team, match_time, category, market, odds, analysis")
+          .eq("status", "published")
+          .eq("is_vip", false)
+          .order("match_time", { ascending: true, nullsFirst: false });
+
+        if (error) throw error;
+
+        allTips = data || [];
+        renderTips();
+      } catch (error) {
+        console.error("Tippek betöltési hiba:", error);
+        tipsStatus.hidden = false;
+        tipsStatus.textContent =
+          "A tippeket most nem sikerült betölteni. Ellenőrizd a Supabase-kapcsolatot és a jogosultságokat.";
+      }
+    }
+
+    // Addig nem küldünk sehova adatot, amíg nincs beállítva a saját címed.
+    // Így az űrlap nem ígér működő küldést beállítás nélkül.
+    document.getElementById("contact-form").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const name = document.getElementById("contact-name").value.trim();
+      const email = document.getElementById("contact-email").value.trim();
+      const message = document.getElementById("contact-message").value.trim();
+
+      const recipient = "IDE_IRD_A_SAJAT_EMAIL_CIMED";
+
+      if (recipient.startsWith("IDE_IRD")) {
+        document.getElementById("contact-status").textContent =
+          "Az űrlap még nincs beállítva. Előbb add meg a saját e-mail-címedet a kódban.";
+        return;
+      }
+
+      const subject = encodeURIComponent("Üzenet a tippskings oldalról");
+      const body = encodeURIComponent(
+        "Név: " + name + "\nE-mail: " + email + "\n\nÜzenet:\n" + message
+      );
+
+      window.location.href =
+        "mailto:" + recipient + "?subject=" + subject + "&body=" + body;
+    });
+
+    loadTips();
+  </script>
+</body>
+</html>
