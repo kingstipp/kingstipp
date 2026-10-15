@@ -3,81 +3,77 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b100e">
-  <meta name="description" content="Tuttitippek – futballtippek, mérkőzéselemzések és sportfogadási információk.">
-  <title>Tuttitippek | Sportfogadási tippek</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d0a">
+  <meta name="description" content="Tippking – futballtippek, sportelemzések és Telegram közösség.">
+  <title>Tippking | Sportfogadási tippek</title>
 
   <style>
     :root {
-      --bg: #0b100e;
-      --panel: #141d18;
-      --panel2: #19251e;
-      --green: #49ed91;
-      --green-dark: #20b96a;
-      --text: #f4f8f5;
-      --muted: #a5b4aa;
-      --border: #29382e;
-      --red: #ff7777;
+      --bg: #080d0a;
+      --panel: #121b15;
+      --panel2: #18251c;
+      --green: #48f08c;
+      --green2: #22bd69;
+      --white: #f5f8f5;
+      --muted: #a5b3a8;
+      --border: #293a2d;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       background: var(--bg);
-      color: var(--text);
+      color: var(--white);
       font-family: Arial, Helvetica, sans-serif;
       line-height: 1.6;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
 
-    button,
-    input,
-    textarea {
-      font: inherit;
-    }
+    button, input, textarea { font: inherit; }
 
     .container {
-      width: min(1100px, 92%);
+      width: min(1080px, 92%);
       margin: auto;
     }
 
     header {
       position: sticky;
       top: 0;
-      z-index: 10;
-      background: rgba(11, 16, 14, .96);
+      z-index: 20;
+      background: rgba(8, 13, 10, .96);
       border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
     .nav {
-      min-height: 72px;
+      min-height: 76px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      align-items: center;
+      gap: 18px;
     }
 
-    .logo {
-      font-size: 23px;
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-size: 24px;
       font-weight: 900;
       letter-spacing: -.8px;
+      white-space: nowrap;
     }
 
-    .logo span {
-      color: var(--green);
+    .brand span { color: var(--green); }
+
+    .crown {
+      width: 38px;
+      height: 38px;
+      flex-shrink: 0;
     }
 
     nav {
@@ -87,96 +83,79 @@
       font-size: 14px;
     }
 
-    nav a {
-      color: var(--muted);
-    }
-
-    nav a:hover {
-      color: var(--green);
-    }
+    nav a { color: var(--muted); }
+    nav a:hover { color: var(--green); }
 
     .hero {
-      padding: 76px 0 64px;
       text-align: center;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(42, 180, 100, .17), transparent 65%);
+      padding: 80px 0 70px;
+      background: radial-gradient(ellipse at 50% 0%, #174426 0%, transparent 65%);
     }
 
     .eyebrow {
       display: inline-block;
-      color: var(--green);
-      background: rgba(73, 237, 145, .09);
-      border: 1px solid rgba(73, 237, 145, .24);
       padding: 6px 13px;
+      border: 1px solid #2c7547;
       border-radius: 30px;
+      color: var(--green);
+      background: #102519;
       font-size: 12px;
       font-weight: 800;
-      text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     h1 {
-      font-size: clamp(35px, 7vw, 62px);
-      line-height: 1.08;
-      margin: 22px auto 18px;
       max-width: 800px;
+      margin: 22px auto 16px;
+      font-size: clamp(38px, 7vw, 66px);
+      line-height: 1.08;
     }
 
-    h1 span {
-      color: var(--green);
-    }
+    h1 span { color: var(--green); }
 
     .hero p {
-      color: var(--muted);
       max-width: 620px;
-      margin: 0 auto 28px;
+      margin: 0 auto 26px;
+      color: var(--muted);
     }
 
     .btn {
       display: inline-block;
-      border: 0;
-      border-radius: 10px;
-      background: var(--green);
-      color: #07120b;
       padding: 12px 20px;
+      border: 0;
+      border-radius: 9px;
+      background: var(--green);
+      color: #071109;
+      text-align: center;
       font-weight: 800;
       cursor: pointer;
       transition: .2s;
     }
 
     .btn:hover {
-      background: #7affae;
+      background: #7affad;
       transform: translateY(-1px);
     }
 
-    .btn-secondary {
-      color: var(--text);
+    .btn-outline {
       background: var(--panel2);
       border: 1px solid var(--border);
+      color: var(--white);
     }
 
-    .section {
-      padding: 54px 0;
-    }
+    .telegram-btn { background: #229ed9; color: white; }
+    .telegram-btn:hover { background: #43b6ee; }
 
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
+    .section { padding: 55px 0; }
+
+    .heading { margin-bottom: 24px; }
 
     h2 {
       margin: 0;
-      font-size: clamp(25px, 4vw, 34px);
+      font-size: clamp(27px, 4vw, 36px);
     }
 
-    .subheading {
-      color: var(--muted);
-      margin: 5px 0 0;
-      font-size: 14px;
-    }
+    .muted { color: var(--muted); }
 
     .filters {
       display: flex;
@@ -186,19 +165,18 @@
     }
 
     .filter {
-      color: var(--muted);
-      background: var(--panel);
+      padding: 9px 16px;
       border: 1px solid var(--border);
       border-radius: 30px;
-      padding: 9px 16px;
+      background: var(--panel);
+      color: var(--muted);
       cursor: pointer;
     }
 
-    .filter.active,
-    .filter:hover {
-      color: #07120b;
+    .filter.active {
       background: var(--green);
       border-color: var(--green);
+      color: #071109;
     }
 
     .tips-grid {
@@ -209,10 +187,10 @@
 
     .tip-card {
       min-width: 0;
+      padding: 20px;
       background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
+      border-radius: 15px;
     }
 
     .tip-top {
@@ -220,19 +198,18 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 15px;
     }
 
-    .league {
-      color: var(--muted);
+    .league, .time, .label {
       font-size: 12px;
+      color: var(--muted);
     }
 
     .tag {
-      display: inline-block;
-      border-radius: 20px;
-      background: rgba(73, 237, 145, .1);
       color: var(--green);
+      background: #102b1b;
+      border-radius: 20px;
       padding: 4px 9px;
       font-size: 11px;
       font-weight: 800;
@@ -241,154 +218,134 @@
     .teams {
       font-size: 19px;
       font-weight: 800;
-      line-height: 1.4;
-      margin-bottom: 14px;
       overflow-wrap: anywhere;
+      margin-bottom: 15px;
     }
 
-    .versus {
-      color: var(--muted);
-      font-size: 12px;
-      margin: 0 7px;
-    }
-
-    .tip-details {
+    .details {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
       border-top: 1px solid var(--border);
       padding-top: 14px;
     }
 
-    .market-label {
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    .market {
-      font-weight: 700;
-      overflow-wrap: anywhere;
-    }
+    .market { font-weight: 700; overflow-wrap: anywhere; }
 
     .odds {
       color: var(--green);
-      font-size: 24px;
+      font-size: 25px;
       font-weight: 900;
       white-space: nowrap;
     }
 
-    .match-time {
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 12px;
-    }
+    .time { margin-top: 12px; }
 
     .analysis {
-      color: #cbd7ce;
-      border-top: 1px solid var(--border);
       margin-top: 12px;
       padding-top: 12px;
+      border-top: 1px solid var(--border);
+      color: #cad7cc;
       font-size: 13px;
       overflow-wrap: anywhere;
     }
 
     .message {
       grid-column: 1 / -1;
+      padding: 28px 18px;
       text-align: center;
-      padding: 30px 18px;
+      color: var(--muted);
       background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      color: var(--muted);
-    }
-
-    .message.error {
-      color: var(--red);
+      border-radius: 12px;
     }
 
     .vip-section {
-      background: #0e1511;
+      background: #0c130e;
       border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
 
-    .vip-intro {
-      text-align: center;
-      max-width: 650px;
-      margin: 0 auto 28px;
-    }
-
-    .vip-intro p {
-      color: var(--muted);
-    }
+    .center { text-align: center; }
 
     .plans {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      max-width: 820px;
+      margin: 28px auto 0;
     }
 
     .plan {
       display: flex;
       flex-direction: column;
-      background: var(--panel);
+      padding: 25px;
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 24px;
+      background: var(--panel);
     }
 
-    .plan.featured {
-      border-color: var(--green);
-      box-shadow: 0 0 28px rgba(73, 237, 145, .07);
-    }
+    .plan.featured { border-color: var(--green); }
 
-    .plan h3 {
-      margin: 0 0 8px;
-      font-size: 20px;
-    }
+    .plan h3 { margin: 0; font-size: 22px; }
 
     .price {
-      font-size: 29px;
+      margin: 13px 0;
+      font-size: 35px;
       font-weight: 900;
-      margin: 12px 0;
+      color: var(--green);
     }
 
-    .price span {
-      color: var(--muted);
-      font-size: 13px;
+    .price small {
+      font-size: 14px;
       font-weight: 400;
+      color: var(--muted);
     }
 
     .plan ul {
-      color: var(--muted);
-      padding-left: 19px;
-      margin: 10px 0 22px;
       flex: 1;
+      padding-left: 20px;
+      color: var(--muted);
     }
 
-    .plan .btn {
-      text-align: center;
-      width: 100%;
+    .plan li { margin-bottom: 7px; }
+
+    .telegram-section {
+      padding: 45px 0;
+    }
+
+    .telegram-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 25px;
+      padding: 28px;
+      border: 1px solid #245c77;
+      border-radius: 16px;
+      background: linear-gradient(120deg, #10251d, #10202a);
+    }
+
+    .telegram-card h2 { margin-bottom: 8px; }
+
+    .telegram-card p {
+      margin: 0;
+      color: var(--muted);
     }
 
     .contact-box {
       max-width: 650px;
       margin: auto;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 16px;
       padding: 24px;
-    }
-
-    .contact-box p {
-      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--panel);
     }
 
     .contact-box label {
       display: block;
-      font-size: 13px;
       margin: 14px 0 6px;
+      font-size: 13px;
     }
 
     .contact-box input,
@@ -397,86 +354,64 @@
       padding: 12px;
       border: 1px solid var(--border);
       border-radius: 9px;
-      background: #0b100e;
-      color: var(--text);
+      background: var(--bg);
+      color: var(--white);
     }
 
     .contact-box textarea {
-      resize: vertical;
       min-height: 100px;
+      resize: vertical;
     }
 
-    .contact-box .btn {
-      margin-top: 16px;
-    }
+    .contact-box button { margin-top: 16px; }
 
-    .small-note {
-      font-size: 12px;
+    .small {
       color: var(--muted);
+      font-size: 12px;
     }
 
     .responsible {
+      padding: 20px 0;
       background: #101713;
       border-top: 1px solid var(--border);
       text-align: center;
-      padding: 20px 0;
-      color: var(--muted);
       font-size: 12px;
+      color: var(--muted);
     }
 
-    footer {
-      padding: 25px 0;
-      color: var(--muted);
-      font-size: 12px;
-    }
+    footer { padding: 24px 0; }
 
     .footer-inner {
       display: flex;
       justify-content: space-between;
-      gap: 15px;
+      gap: 12px;
       flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
     }
 
     @media (max-width: 720px) {
       .nav {
+        align-items: flex-start;
+        flex-direction: column;
         padding: 13px 0;
+      }
+
+      nav { gap: 13px; }
+
+      .hero { padding: 55px 0; }
+
+      .section { padding: 40px 0; }
+
+      .tips-grid, .plans { grid-template-columns: 1fr; }
+
+      .telegram-card {
         align-items: flex-start;
         flex-direction: column;
+        padding: 22px;
       }
 
-      nav {
-        gap: 13px;
-      }
-
-      .hero {
-        padding: 55px 0 45px;
-      }
-
-      .section {
-        padding: 40px 0;
-      }
-
-      .section-heading {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .tips-grid,
-      .plans {
-        grid-template-columns: 1fr;
-      }
-
-      .tip-card {
-        padding: 16px;
-      }
-
-      .teams {
-        font-size: 17px;
-      }
-
-      .contact-box {
-        padding: 18px;
-      }
+      .tip-card { padding: 16px; }
     }
   </style>
 </head>
@@ -484,11 +419,22 @@
 <body>
   <header>
     <div class="container nav">
-      <a class="logo" href="#">TUTTI<span>TIPPEK</span></a>
+      <a class="brand" href="#" aria-label="Tippking főoldal">
+        <svg class="crown" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M7 17 L21 27 L32 8 L43 27 L57 17 L51 43 L13 43 Z"
+                fill="#48f08c"/>
+          <path d="M15 48 H49 V55 H15 Z" fill="#48f08c"/>
+          <circle cx="7" cy="15" r="4" fill="#48f08c"/>
+          <circle cx="32" cy="7" r="4" fill="#48f08c"/>
+          <circle cx="57" cy="15" r="4" fill="#48f08c"/>
+        </svg>
+        TIPP<span>KING</span>
+      </a>
 
       <nav aria-label="Főmenü">
-        <a href="#tippek">Ingyenes tippek</a>
-        <a href="#vip">VIP</a>
+        <a href="#tippek">Tippek</a>
+        <a href="#vip">VIP-tagság</a>
+        <a href="#telegram">Telegram</a>
         <a href="#kapcsolat">Kapcsolat</a>
         <a href="admin.html">Admin</a>
       </nav>
@@ -498,30 +444,28 @@
   <main>
     <section class="hero">
       <div class="container">
-        <span class="eyebrow">Futball • Elemzés • Tippek</span>
-        <h1>Sportfogadási tippek <span>egy helyen</span></h1>
+        <span class="eyebrow">Tippking • Futballtippek</span>
+        <h1>A következő tipped<br><span>itt kezdődik.</span></h1>
         <p>
-          Böngészd a közzétett mérkőzéseket és tippeket,
-          nézd meg az oddsokat, és olvasd el az elemzéseket.
+          Böngészd az ingyenes futballtippeket, nézd meg a mérkőzéselemzéseket,
+          és csatlakozz a Tippking Telegram-közösségéhez.
         </p>
-        <a class="btn" href="#tippek">Tippek megtekintése</a>
-        <a class="btn btn-secondary" href="#vip">VIP-csomagok</a>
+        <a class="btn" href="#tippek">Ingyenes tippek</a>
+        <a class="btn btn-outline" href="#vip">VIP-tagság</a>
       </div>
     </section>
 
     <section class="section" id="tippek">
       <div class="container">
-        <div class="section-heading">
-          <div>
-            <h2>Mai ingyenes tippek</h2>
-            <p class="subheading">A nyilvánosan közzétett tippek automatikusan betöltődnek.</p>
-          </div>
+        <div class="heading">
+          <h2>Ingyenes tippek</h2>
+          <p class="muted">A közzétett tippek automatikusan jelennek meg.</p>
         </div>
 
-        <div class="filters" aria-label="Tippek szűrése">
-          <button class="filter active" data-filter="all" type="button">Összes</button>
-          <button class="filter" data-filter="gol" type="button">Góltippek</button>
-          <button class="filter" data-filter="eredmeny" type="button">Eredménytippek</button>
+        <div class="filters">
+          <button class="filter active" type="button" data-filter="all">Összes</button>
+          <button class="filter" type="button" data-filter="gol">Góltippek</button>
+          <button class="filter" type="button" data-filter="eredmeny">Eredménytippek</button>
         </div>
 
         <div class="tips-grid" id="tips-list" aria-live="polite">
@@ -532,101 +476,114 @@
 
     <section class="section vip-section" id="vip">
       <div class="container">
-        <div class="vip-intro">
-          <span class="eyebrow">VIP tagság</span>
-          <h2 style="margin-top:14px">VIP tippek és elemzések</h2>
-          <p>
-            Válassz a tervezett csomagok közül. A fizetés és a hozzáférés
-            csak akkor működik, ha később külön beállítjuk a fizetési rendszert.
-          </p>
+        <div class="center">
+          <span class="eyebrow">Tippking VIP</span>
+          <h2 style="margin-top:14px">Válaszd ki a tagságodat</h2>
+          <p class="muted">VIP-csomagok és részletesebb elemzések.</p>
         </div>
 
         <div class="plans">
           <article class="plan">
-            <h3>Heti VIP</h3>
-            <p class="subheading">Rövid távú hozzáférés</p>
-            <div class="price">2 000 Ft <span>/ hét</span></div>
+            <h3>Heti tagság</h3>
+            <p class="muted">7 napos csomag</p>
+            <div class="price">3 999 Ft <small>/ hét</small></div>
             <ul>
               <li>VIP tartalmakhoz tervezett hozzáférés</li>
               <li>Mérkőzéselemzések</li>
               <li>Heti tagság</li>
             </ul>
-            <a class="btn" href="#kapcsolat">Érdekel</a>
+            <a class="btn" href="#kapcsolat">Heti tagság érdekel</a>
           </article>
 
           <article class="plan featured">
-            <span class="tag">Kiemelt csomag</span>
-            <h3 style="margin-top:12px">Havi VIP</h3>
-            <p class="subheading">Hosszabb távú hozzáférés</p>
-            <div class="price">6 000 Ft <span>/ hónap</span></div>
+            <span class="eyebrow" style="align-self:flex-start">Havi csomag</span>
+            <h3 style="margin-top:12px">Havi tagság</h3>
+            <p class="muted">30 napos csomag</p>
+            <div class="price">9 999 Ft <small>/ hónap</small></div>
             <ul>
               <li>VIP tartalmakhoz tervezett hozzáférés</li>
-              <li>Részletes elemzések</li>
+              <li>Részletes mérkőzéselemzések</li>
               <li>Havi tagság</li>
             </ul>
-            <a class="btn" href="#kapcsolat">Érdekel</a>
-          </article>
-
-          <article class="plan">
-            <h3>Prémium</h3>
-            <p class="subheading">Egyedi érdeklődés</p>
-            <div class="price">Egyedi <span>ajánlat</span></div>
-            <ul>
-              <li>Részletek egyeztetés alapján</li>
-              <li>Kapcsolatfelvétel</li>
-              <li>Feltételek előzetes tisztázása</li>
-            </ul>
-            <a class="btn" href="#kapcsolat">Kapcsolat</a>
+            <a class="btn" href="#kapcsolat">Havi tagság érdekel</a>
           </article>
         </div>
 
-        <p class="small-note" style="text-align:center;margin-top:22px">
-          A csomagok feltüntetése önmagában nem jelent aktív előfizetést vagy fizetési lehetőséget.
+        <p class="small center" style="margin-top:20px">
+          A tagságokhoz tartozó fizetés és hozzáférés aktiválása külön beállítást igényel.
+          A feltüntetett tippek nem garantálnak nyereményt.
         </p>
+      </div>
+    </section>
+
+    <section class="telegram-section" id="telegram">
+      <div class="container">
+        <div class="telegram-card">
+          <div>
+            <h2>Csatlakozz a Telegram-csoporthoz!</h2>
+            <p>Kövess minket a Telegramon a legfrissebb hírekért és tippekért.</p>
+            <p class="small" style="margin-top:8px">@kingtipphun</p>
+          </div>
+          <a class="btn telegram-btn"
+             href="https://t.me/kingtipphun"
+             target="_blank"
+             rel="noopener noreferrer">
+            Telegram megnyitása ↗
+          </a>
+        </div>
       </div>
     </section>
 
     <section class="section" id="kapcsolat">
       <div class="container">
-        <div class="section-heading">
-          <div>
-            <h2>Kapcsolat</h2>
-            <p class="subheading">Kérdésed van? Írj üzenetet.</p>
-          </div>
+        <div class="heading">
+          <h2>Kapcsolat</h2>
+          <p class="muted">Kérdésed van a tagságokkal kapcsolatban? Írj üzenetet.</p>
         </div>
 
         <form class="contact-box" id="contact-form">
-          <label for="contact-name">Neved</label>
-          <input id="contact-name" name="name" required maxlength="100" placeholder="Írd be a neved">
+          <label for="name">Név</label>
+          <input id="name" name="name" required maxlength="100" placeholder="A neved">
 
-          <label for="contact-email">E-mail-címed</label>
-          <input id="contact-email" name="email" type="email" required maxlength="200" placeholder="nev@email.hu">
+          <label for="email">E-mail-cím</label>
+          <input id="email" name="email" type="email" required maxlength="200"
+                 placeholder="nev@email.hu">
 
-          <label for="contact-message">Üzenet</label>
-          <textarea id="contact-message" name="message" required maxlength="3000" placeholder="Miben segíthetünk?"></textarea>
+          <label for="plan">Melyik tagság érdekel?</label>
+          <select id="plan" name="plan"
+                  style="width:100%;padding:12px;border:1px solid var(--border);border-radius:9px;background:var(--bg);color:var(--white)">
+            <option>Heti tagság – 3 999 Ft</option>
+            <option>Havi tagság – 9 999 Ft</option>
+            <option>Általános érdeklődés</option>
+          </select>
+
+          <label for="message">Üzenet</label>
+          <textarea id="message" name="message" required maxlength="2000"
+                    placeholder="Írd le a kérdésedet"></textarea>
 
           <button class="btn" type="submit">Üzenet előkészítése</button>
-          <p class="small-note">
-            Az űrlap az e-mail-programodat nyitja meg. Ehhez működő e-mail-címet kell majd beállítani a kódban.
+          <p id="contact-status" class="small" aria-live="polite"></p>
+          <p class="small">
+            Az űrlap e-mail-programot nyit meg. A működéséhez saját e-mail-címet kell megadni a kódban.
           </p>
-          <p id="contact-status" class="small-note" aria-live="polite"></p>
         </form>
       </div>
     </section>
 
     <section class="responsible">
       <div class="container">
-        A sportfogadás kockázattal jár. Nincs garantált nyeremény.
-        Csak felelősen, a saját anyagi lehetőségeid figyelembevételével fogadj.
-        18 éven aluliak számára nem ajánlott.
+        A sportfogadás pénzügyi kockázattal jár, és nincs garantált nyeremény.
+        Csak felelősen fogadj. 18 éven aluliak számára nem ajánlott.
       </div>
     </section>
   </main>
 
   <footer>
     <div class="container footer-inner">
-      <span>© <span id="year"></span> Tuttitippek</span>
-      <span>Sportfogadási információk és elemzések</span>
+      <span>© <span id="year"></span> Tippking</span>
+      <a href="https://t.me/kingtipphun" target="_blank" rel="noopener noreferrer">
+        Telegram-közösség
+      </a>
     </div>
   </footer>
 
@@ -637,44 +594,25 @@
     const SUPABASE_URL = "https://wtioblmrnpdceqvqxtbj.supabase.co";
     const SUPABASE_KEY = "sb_publishable_KwMyxHE9CSiaFugV0TmB-Q_xiqlhz9m";
 
-    // Ide írd majd be a saját, működő kapcsolati e-mail-címedet.
+    // Cseréld ki a saját e-mail-címedre, ha szeretnéd aktiválni az űrlapot.
     const CONTACT_EMAIL = "IDE_IRD_AZ_EMAIL_CIMED";
 
-    const tipsList = document.getElementById("tips-list");
-    const filterButtons = document.querySelectorAll(".filter");
-    let allTips = [];
-    let currentFilter = "all";
+    const list = document.getElementById("tips-list");
+    const filters = document.querySelectorAll(".filter");
+    let tips = [];
+    let selectedFilter = "all";
 
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    function showMessage(message, isError = false) {
-      tipsList.replaceChildren();
-
-      const box = document.createElement("div");
-      box.className = isError ? "message error" : "message";
-      box.textContent = message;
-      tipsList.appendChild(box);
+    function showMessage(text) {
+      list.replaceChildren();
+      const message = document.createElement("div");
+      message.className = "message";
+      message.textContent = text;
+      list.appendChild(message);
     }
 
-    function formatMatchTime(value) {
-      if (!value) return "Kezdés: nincs megadva";
-
-      const date = new Date(value);
-
-      if (Number.isNaN(date.getTime())) {
-        return "Kezdés: nincs megadva";
-      }
-
-      return "Kezdés: " + new Intl.DateTimeFormat("hu-HU", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit"
-      }).format(date);
-    }
-
-    function createTipCard(tip) {
+    function makeTip(tip) {
       const card = document.createElement("article");
       card.className = "tip-card";
 
@@ -687,43 +625,48 @@
 
       const tag = document.createElement("span");
       tag.className = "tag";
-      tag.textContent = tip.category === "eredmeny" ? "EREDMÉNY" : "GÓLTIPP";
-
+      tag.textContent = tip.category === "eredmeny" ? "EREDMÉNYTIPP" : "GÓLTIPP";
       top.append(league, tag);
 
       const teams = document.createElement("div");
       teams.className = "teams";
-      teams.textContent = (tip.home_team || "Hazai csapat") + " vs. " +
-        (tip.away_team || "Vendégcsapat");
+      teams.textContent = (tip.home_team || "Hazai csapat") + " – " +
+                          (tip.away_team || "Vendégcsapat");
 
       const details = document.createElement("div");
-      details.className = "tip-details";
+      details.className = "details";
 
       const marketBox = document.createElement("div");
-
-      const marketLabel = document.createElement("div");
-      marketLabel.className = "market-label";
-      marketLabel.textContent = "Tipp";
+      const label = document.createElement("div");
+      label.className = "label";
+      label.textContent = "Fogadási piac";
 
       const market = document.createElement("div");
       market.className = "market";
       market.textContent = tip.market || "Nincs megadva";
-
-      marketBox.append(marketLabel, market);
+      marketBox.append(label, market);
 
       const odds = document.createElement("div");
       odds.className = "odds";
-
-      const numericOdds = Number(tip.odds);
-      odds.textContent = Number.isFinite(numericOdds)
-        ? numericOdds.toFixed(2)
-        : "—";
+      const n = Number(tip.odds);
+      odds.textContent = Number.isFinite(n) ? n.toFixed(2) : "—";
 
       details.append(marketBox, odds);
 
       const time = document.createElement("div");
-      time.className = "match-time";
-      time.textContent = formatMatchTime(tip.match_time);
+      time.className = "time";
+
+      if (tip.match_time && !Number.isNaN(new Date(tip.match_time).getTime())) {
+        time.textContent = "Kezdés: " + new Intl.DateTimeFormat("hu-HU", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit"
+        }).format(new Date(tip.match_time));
+      } else {
+        time.textContent = "Kezdési idő nincs megadva";
+      }
 
       card.append(top, teams, details, time);
 
@@ -738,57 +681,42 @@
     }
 
     function renderTips() {
-      tipsList.replaceChildren();
+      list.replaceChildren();
 
-      const visibleTips = allTips.filter(tip =>
-        currentFilter === "all" || tip.category === currentFilter
+      const visible = tips.filter(tip =>
+        selectedFilter === "all" || tip.category === selectedFilter
       );
 
-      if (visibleTips.length === 0) {
+      if (!visible.length) {
         showMessage(
-          allTips.length === 0
+          tips.length === 0
             ? "Jelenleg nincs közzétett ingyenes tipp. Nézz vissza később!"
             : "Ebben a kategóriában jelenleg nincs közzétett tipp."
         );
         return;
       }
 
-      visibleTips.forEach(tip => {
-        tipsList.appendChild(createTipCard(tip));
-      });
+      visible.forEach(tip => list.appendChild(makeTip(tip)));
     }
 
-    filterButtons.forEach(button => {
+    filters.forEach(button => {
       button.addEventListener("click", () => {
-        currentFilter = button.dataset.filter;
-
-        filterButtons.forEach(item => {
-          item.classList.toggle("active", item === button);
-        });
-
+        selectedFilter = button.dataset.filter;
+        filters.forEach(item =>
+          item.classList.toggle("active", item === button)
+        );
         renderTips();
       });
     });
 
     async function loadTips() {
       if (!window.supabase) {
-        showMessage(
-          "Nem sikerült betölteni a Supabase könyvtárat. Ellenőrizd az internetkapcsolatot, majd frissítsd az oldalt.",
-          true
-        );
-        return;
-      }
-
-      if (!SUPABASE_KEY || SUPABASE_KEY.startsWith("IDE_")) {
-        showMessage("A Supabase-kulcs nincs megfelelően beállítva.", true);
+        showMessage("Nem sikerült betölteni a szükséges könyvtárat. Ellenőrizd az internetkapcsolatot.");
         return;
       }
 
       try {
-        const db = window.supabase.createClient(
-          SUPABASE_URL,
-          SUPABASE_KEY
-        );
+        const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const { data, error } = await db
           .from("tips")
@@ -799,21 +727,15 @@
 
         if (error) {
           console.error("Supabase hiba:", error);
-          showMessage(
-            "Nem sikerült betölteni a tippeket. Ellenőrizd a Supabase-kulcsot, a táblát és az adatbázis jogosultságait.",
-            true
-          );
+          showMessage("Nem sikerült betölteni a tippeket. Ellenőrizd a Supabase-beállításokat.");
           return;
         }
 
-        allTips = Array.isArray(data) ? data : [];
+        tips = Array.isArray(data) ? data : [];
         renderTips();
       } catch (error) {
-        console.error("Betöltési hiba:", error);
-        showMessage(
-          "Hiba történt a tippek betöltése közben. Frissítsd az oldalt később.",
-          true
-        );
+        console.error(error);
+        showMessage("Hiba történt a tippek betöltése közben. Próbáld újra később.");
       }
     }
 
@@ -824,17 +746,21 @@
 
       if (CONTACT_EMAIL === "IDE_IRD_AZ_EMAIL_CIMED") {
         status.textContent =
-          "Az űrlap még nem aktív: a kódban be kell állítani a kapcsolati e-mail-címet.";
+          "Az űrlap még nincs aktiválva. Állítsd be a kapcsolati e-mail-címet a kódban.";
         return;
       }
 
-      const name = document.getElementById("contact-name").value.trim();
-      const email = document.getElementById("contact-email").value.trim();
-      const message = document.getElementById("contact-message").value.trim();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const plan = document.getElementById("plan").value;
+      const message = document.getElementById("message").value.trim();
 
-      const subject = encodeURIComponent("Üzenet a Tuttitippek weboldalról");
+      const subject = encodeURIComponent("Tippking – tagsági érdeklődés");
       const body = encodeURIComponent(
-        "Név: " + name + "\nE-mail: " + email + "\n\nÜzenet:\n" + message
+        "Név: " + name +
+        "\nE-mail: " + email +
+        "\nCsomag: " + plan +
+        "\n\nÜzenet:\n" + message
       );
 
       window.location.href =
