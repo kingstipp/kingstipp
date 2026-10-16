@@ -751,39 +751,59 @@
       `;
     }
 
-    async function loadFreeTips() {
-      hideNotice("freeNotice");
-      $("freeTips").innerHTML = '<div class="empty">Tippek betöltése...</div>';
+    
 
-      try {
-        const { data, error } = await supabaseClient
-          .from("tips")
-          .select("id,league,home_team,away_team,match_time,category,market,odds,status,analysis,created_at")
-          .eq("status", "published")
-          .eq("is_vip", false)
-          .in("category", ["gol", "eredmeny"])
-          .order("match_time", { ascending: true })
-          .limit(50);
+async function loadFreeTips() {
+  hideNotice("freeNotice");
 
-        if (error) throw error;
+  const freeTips = $("freeTips");
+  freeTips.innerHTML =
+    '<div class="empty">Ingyenes tippek betöltése...</div>';
 
-        if (!data || data.length === 0) {
-          $("freeTips").innerHTML =
-            '<div class="empty">Jelenleg nincs közzétett ingyenes tipp. Nézz vissza később!</div>';
-          return;
-        }
+  try {
+    const { data, error } = await supabaseClient
+      .from("tips")
+      .select(
+        "id,league,home_team,away_team,match_time,category,market,odds,status,is_vip,analysis,created_at"
+      )
+      .eq("status", "published")
+      .eq("is_vip", false)
+      .order("created_at", { ascending: false })
+      .limit(50);
 
-        $("freeTips").innerHTML = data
-          .map((tip) => tipCard(tip, false))
-          .join("");
-      } catch (error) {
-        console.error("Ingyenes tippek betöltése:", error);
-        $("freeTips").innerHTML =
-          '<div class="empty">A tippek most nem tölthetők be. Próbáld újra később.</div>';
-        showNotice(
-          "freeNotice",
-          "Nem sikerült betölteni a tippeket. Ellenőrizd a Supabase-kapcsolatot és az RLS-szabályokat.",
-          true
+    if (error) {
+      console.error("Supabase hiba:", error);
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      freeTips.innerHTML =
+        '<div class="empty">Jelenleg nincs közzétett ingyenes tipp. Ellenőrizd, hogy a tipp státusza „published”, és az „is_vip” értéke false-e.</div>';
+      return;
+    }
+
+    freeTips.innerHTML = data
+      .map((tip) => tipCard(tip, false))
+      .join("");
+
+  } catch (error) {
+    console.error("Ingyenes tippek betöltése:", error);
+
+    freeTips.innerHTML =
+      '<div class="empty">A tippek betöltése sikertelen. Próbáld újra a frissítés gombbal.</div>';
+
+    showNotice(
+      "freeNotice",
+      "Supabase-hiba: ellenőrizd a kapcsolatot és a tips tábla olvasási jogosultságait (RLS).",
+      true
+    );
+  }
+}
+
+    );
+  }
+}
+    
         );
       }
     }
