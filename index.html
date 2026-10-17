@@ -131,10 +131,12 @@
       <span class="crown">♛</span><span>TIPP<span>KING</span></span>
     </a>
     <nav>
-      <a href="#ingyenes">Ingyenes tippek</a>
-      <a href="#telegram">Telegram</a>
-      <a href="#vip">VIP</a>
-      <a href="#fiok">Fiókom</a>
+  <a href="#ingyenes">Aktuális tippek</a>
+  <a href="#nyertes">Nyertes tippek</a>
+  <a href="#vesztes">Vesztes tippek</a>
+  <a href="#telegram">Telegram</a>
+  <a href="#vip">VIP</a>
+  <a href="#fiok">Fiókom</a>
     </nav>
   </div>
 </header>
@@ -166,7 +168,35 @@
       <div id="freeTips" class="grid"><div class="empty">Tippek betöltése...</div></div>
     </div>
   </section>
+<section id="nyertes">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Korábbi eredmények</div>
+        <h2>Nyertes tippek</h2>
+        <p class="muted">A lezárt nyertes ingyenes tippek.</p>
+      </div>
+    </div>
+    <div id="wonTips" class="grid">
+      <div class="empty">Eredmények betöltése...</div>
+    </div>
+  </div>
+</section>
 
+<section id="vesztes">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Korábbi eredmények</div>
+        <h2>Vesztes tippek</h2>
+        <p class="muted">A lezárt vesztes ingyenes tippek.</p>
+      </div>
+    </div>
+    <div id="lostTips" class="grid">
+      <div class="empty">Eredmények betöltése...</div>
+    </div>
+  </div>
+</section>
   <section id="telegram">
     <div class="container">
       <div class="panel telegram-panel">
@@ -401,7 +431,53 @@ async function loadFreeTips() {
     showNotice("freeNotice", "Supabase-hiba: ellenőrizd a kapcsolatot és a tips tábla olvasási jogosultságait (RLS).", true);
   }
 }
+async function loadResultTips() {
+  const wonTips = $("wonTips");
+  const lostTips = $("lostTips");
 
+  try {
+    const columns =
+      "id,league,home_team,away_team,match_time,category,market,odds,status,is_vip,analysis,created_at";
+
+    const [wonResult, lostResult] = await Promise.all([
+      supabaseClient
+        .from("tips")
+        .select(columns)
+        .eq("is_vip", false)
+        .eq("status", "won")
+        .order("created_at", { ascending: false })
+        .limit(50),
+
+      supabaseClient
+        .from("tips")
+        .select(columns)
+        .eq("is_vip", false)
+        .eq("status", "lost")
+        .order("created_at", { ascending: false })
+        .limit(50)
+    ]);
+
+    if (wonResult.error) throw wonResult.error;
+    if (lostResult.error) throw lostResult.error;
+
+    wonTips.innerHTML = wonResult.data.length
+      ? wonResult.data.map(tip => tipCard(tip, false)).join("")
+      : '<div class="empty">Még nincs lezárt nyertes ingyenes tipp.</div>';
+
+    lostTips.innerHTML = lostResult.data.length
+      ? lostResult.data.map(tip => tipCard(tip, false)).join("")
+      : '<div class="empty">Még nincs lezárt vesztes ingyenes tipp.</div>';
+
+  } catch (error) {
+    console.error("Lezárt tippek betöltése:", error);
+
+    wonTips.innerHTML =
+      '<div class="empty">A nyertes tippek betöltése sikertelen.</div>';
+
+    lostTips.innerHTML =
+      '<div class="empty">A vesztes tippek betöltése sikertelen.</div>';
+  }
+      }
 async function loadVipTips() {
   $("vipTips").innerHTML = "";
   $("vipTips").classList.add("hidden");
@@ -594,7 +670,8 @@ function renderPayPalButtons() {
 }
 
 loadFreeTips();
-updateAuthUI();
+loadResultTips();
+updateAuthUI();;
 </script>
 
 <script
