@@ -197,6 +197,43 @@
     </div>
   </div>
 </section>
+ 
+  <section id="statisztikak">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Tippking eredmények</div>
+        <h2>Statisztikák</h2>
+        <p class="muted">
+          A lezárt tippek összesített eredményei.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="panel">
+        <div class="muted">Lezárt tippek</div>
+        <h2 id="statsTotal">0</h2>
+      </div>
+
+      <div class="panel">
+        <div class="muted">Találati arány</div>
+        <h2 id="statsHitRate">0%</h2>
+      </div>
+
+      <div class="panel">
+        <div class="muted">Profit / veszteség</div>
+        <h2 id="statsProfit">Számításra vár</h2>
+      </div>
+    </div>
+
+    <p class="muted small">
+      A statisztika a lezárt tippek adataiból készül.
+      A múltbeli eredmények nem garantálják a jövőbeli sikert.
+    </p>
+  </div>
+  </section>
+  
   <section id="telegram">
     <div class="container">
       <div class="panel telegram-panel">
@@ -679,5 +716,41 @@ updateAuthUI();;
   onload="renderPayPalButtons()"
   defer>
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const pageSections = [
+    "ingyenes",
+    "nyertes",
+    "vesztes",
+    "statisztikak",
+    "telegram",
+    "vip",
+    "fiok"
+  ];
+
+  function showPage() {
+    const requested = location.hash.replace("#", "");
+    const page = pageSections.includes(requested)
+      ? requested
+      : "ingyenes";
+
+    pageSections.forEach(id => {
+      const section = document.getElementById(id);
+      if (section) {
+        section.hidden = id !== page;
+      }
+    });
+
+    const selected = document.getElementById(page);
+    if (selected) selected.hidden = false;
+
+    window.scrollTo(0, 0);
+  }
+
+  window.addEventListener("hashchange", showPage);
+  showPage();
+});
+</script>
+
 </body>
 </html>
