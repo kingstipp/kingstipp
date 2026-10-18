@@ -705,33 +705,92 @@ supabaseClient.auth.onAuthStateChange(() => {
 // A fizetés önmagában nem aktivál VIP-tagságot: ahhoz biztonságos
 // szerveroldali fizetésellenőrzés és tagságfrissítés szükséges.
 let paypalRendered = false;
+  
+let paypalRendered = false;
+
 function renderPayPalButtons() {
-  if (paypalRendered || !window.paypal || !window.paypal.HostedButtons) return;
+  if (paypalRendered || !window.paypal?.Buttons) return;
+
   paypalRendered = true;
+
+  function createVipButton(container, plan) {
+    window.paypal.Buttons({
+      createOrder: async () => {
+        if (!currentSession) {
+          showNotice("vipNotice", "Fizetés előtt jelentkezz be a Tippkingbe.", true);
+          throw new Error("Bejelentkezés szükséges.");
+        }
+
+        const { data, error } = await supabaseClient.functions.invoke(
+          "paypal-create-order",
+          { body: { plan } }
+        );
+
+        if (error || !data?.id) {
+          console.error("Rendelés létrehozása:", error, data);
+          showNotice("vipNotice", "Nem sikerült létrehozni a PayPal-rendelést.", true);
+          throw new Error("A rendelés létrehozása sikertelen.");
+        }
+
+        return data.id;
+      },
+
+      onApprove: async (data) => {
+        showNotice("vipNotice", "Fizetés ellenőrzése folyamatban...");
+
+        const { data: result, error } = await supabaseClient.functions.invoke(
+          "paypal-capture-order",
+          { body: { orderId: data.orderID } }
+        );
+
+        if (error || !result?.success || !result?.vipActivated) {
+          console.error("Fizetés véglegesítése:", error, result);
+          showNotice(
+            "vipNotice",
+            "A fizetés ellenőrzése nem fejeződött be. Ne fizess újra; frissítés előtt ellenőrizzük a tranzakciót.",
+            true
+          );
+          return;
+        }
+
+        showNotice("vipNotice", "Sikeres fizetés! A VIP-tagságod aktiválódott.");
+        await updateAuthUI();
+      },
+
+      onCancel: () => {
+        showNotice("vipNotice", "A fizetést megszakítottad.");
+      },
+
+      onError: (error) => {
+        console.error("PayPal-hiba:", error);
+        showNotice("vipNotice", "Hiba történt a PayPal-fizetés során.", true);
+      }
+    }).render(container);
+  }
+
   try {
-    window.paypal.HostedButtons({hostedButtonId:"NDAZCN4KQWKZQ"}).render("#paypal-weekly");
+    createVipButton("#paypal-weekly", "weekly");
+    createVipButton("#paypal-monthly", "monthly");
   } catch (error) {
     paypalRendered = false;
-    console.error("Heti PayPal-gomb:", error);
-    showNotice("vipNotice", "A heti PayPal-gomb nem tölthető be. Ellenőrizd a PayPal-gombazonosítót.", true);
-  }
-  try {
-    window.paypal.HostedButtons({hostedButtonId:"SW5MN7VJLCTDG"}).render("#paypal-monthly");
-  } catch (error) {
-    console.error("Havi PayPal-gomb:", error);
-    showNotice("vipNotice", "A havi PayPal-gomb nem tölthető be. Ellenőrizd a PayPal-gombazonosítót.", true);
+    console.error("PayPal-gombok:", error);
+    showNotice("vipNotice", "A PayPal-gombok nem tölthetők be.", true);
   }
 }
+  
 
 loadFreeTips();
 loadResultTips();
 updateAuthUI();;
 </script>
 
+
 <script
   src="https://www.paypal.com/sdk/js?client-id=BAANPW_EqSrR8ZotE2_m4U6zDOzaMnJcN78tNPw0uQ-3u2dnAENi78PZhMuUmzPmK5WGpBgXlgwmYIC6tU&components=buttons&currency=HUF"
+  onload="renderPayPalButtons()"
   defer>
 </script>
+  
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const pageSections = [
