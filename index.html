@@ -3,833 +3,682 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#07140f">
-  <meta name="description" content="Tippking – ingyenes és VIP sportfogadási tippek, elemzések és közösség.">
-  <title>Tippking | Sportfogadási tippek</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0b0d">
+  <meta name="description" content="Tippking – sporttippek, mérkőzéselemzések és VIP-tagság.">
+  <title>Tippking | Sporttippek</title>
 
   <style>
     :root {
-      --bg:#07140f; --panel:#10251b; --panel2:#142d21;
-      --green:#42e695; --green-dark:#15945a; --text:#f4fff8;
-      --muted:#a8bcb0; --border:rgba(255,255,255,.1);
-      --red:#ff7777; --yellow:#ffd36b;
+      --bg: #0b0b0d;
+      --panel: #151518;
+      --panel2: #1d1d21;
+      --gold: #e7bd64;
+      --gold2: #ffd98a;
+      --text: #f5f2eb;
+      --muted: #a6a4a0;
+      --green: #53d69a;
+      --red: #ff7373;
+      --border: rgba(231,189,100,.20);
+      --radius: 18px;
     }
-    * { box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
+
+    * { box-sizing: border-box; }
+
     body {
-      margin:0; background:var(--bg); color:var(--text);
-      font-family:Arial,Helvetica,sans-serif; line-height:1.6;
+      margin: 0;
+      background:
+        radial-gradient(ellipse at top, rgba(231,189,100,.08), transparent 38%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Arial, sans-serif;
+      padding-bottom: calc(86px + env(safe-area-inset-bottom));
     }
-    a { color:inherit; text-decoration:none; }
-    button,input,select { font:inherit; }
-    button,.btn { cursor:pointer; }
-    .container { width:min(1120px,92%); margin:0 auto; }
-    header {
-      position:sticky; top:0; z-index:20;
-      background:rgba(7,20,15,.95); border-bottom:1px solid var(--border);
-      backdrop-filter:blur(12px);
+
+    button, input { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 17px;
+      background: rgba(11,11,13,.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
     }
-    .nav {
-      min-height:72px; display:flex; justify-content:space-between;
-      align-items:center; gap:18px; flex-wrap:wrap; padding:12px 0;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 950;
+      letter-spacing: 1.2px;
+      font-size: 20px;
     }
-    .logo { display:flex; align-items:center; gap:10px; font-size:24px; font-weight:900; letter-spacing:.5px; }
-    .crown { color:var(--green); font-size:29px; }
-    .logo span:last-child { color:var(--green); }
-    nav { display:flex; align-items:center; flex-wrap:wrap; gap:17px; font-size:14px; }
-    nav a:hover { color:var(--green); }
+
+    .brand-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      color: #15110a;
+      background: linear-gradient(135deg, var(--gold2), #ad7927);
+      border-radius: 12px;
+      font-size: 21px;
+      box-shadow: 0 5px 24px #e7bd6422;
+    }
+
+    .gold { color: var(--gold); }
+    .muted { color: var(--muted); }
+    .small { font-size: 12px; }
+
+    .page {
+      display: none;
+      max-width: 760px;
+      margin: auto;
+      padding: 20px 15px;
+      animation: appear .2s ease;
+    }
+
+    .page.active { display: block; }
+
+    @keyframes appear {
+      from { opacity: .5; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .hero {
-      padding:82px 0 66px;
-      background:radial-gradient(ellipse at 80% 10%,rgba(36,173,104,.18),transparent 45%),
-      radial-gradient(ellipse at 10% 70%,rgba(29,112,72,.12),transparent 50%);
+      padding: 26px 21px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 100% 0%, #e7bd6422, transparent 48%),
+        linear-gradient(140deg, #1c1913, #121214 65%);
+      overflow: hidden;
     }
-    .eyebrow { color:var(--green); font-weight:800; text-transform:uppercase; letter-spacing:2px; font-size:12px; }
-    h1 { font-size:clamp(38px,7vw,68px); line-height:1.08; margin:15px 0; letter-spacing:-1.5px; }
-    h1 span { color:var(--green); }
-    .hero p { color:var(--muted); font-size:18px; max-width:650px; }
-    .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:25px; }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-size: clamp(30px, 8vw, 43px);
+      line-height: 1.08;
+      letter-spacing: -1.4px;
+      margin: 13px 0;
+    }
+
+    h2 { font-size: 23px; margin: 0 0 8px; }
+    h3 { font-size: 17px; margin: 0; }
+
+    p { line-height: 1.6; }
+
     .btn {
-      display:inline-flex; align-items:center; justify-content:center;
-      border:1px solid transparent; border-radius:10px; padding:12px 18px;
-      font-weight:800; transition:.2s; text-align:center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      border-radius: 12px;
+      min-height: 45px;
+      padding: 11px 16px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
     }
-    .btn:hover { transform:translateY(-1px); }
-    .btn-primary { background:var(--green); color:#06140c; }
-    .btn-secondary { border-color:var(--border); background:rgba(255,255,255,.04); color:var(--text); }
-    .btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
-    section { padding:55px 0; }
-    .section-head { display:flex; justify-content:space-between; align-items:end; gap:20px; flex-wrap:wrap; margin-bottom:25px; }
-    h2 { font-size:clamp(27px,4vw,38px); margin:7px 0; line-height:1.2; }
-    h3 { margin:0 0 12px; }
-    .muted { color:var(--muted); }
-    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:17px; }
-    .panel,.tip-card,.price-card {
-      background:linear-gradient(145deg,var(--panel2),var(--panel));
-      border:1px solid var(--border); border-radius:17px; padding:22px; min-width:0;
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold2), #c3913e);
+      color: #18130a;
     }
-    .tip-card { display:flex; flex-direction:column; gap:12px; }
-    .tip-top { display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; }
-    .tag { display:inline-block; border-radius:999px; padding:4px 10px; background:rgba(66,230,149,.12); color:var(--green); font-size:12px; font-weight:800; }
-    .tag-vip { color:var(--yellow); background:rgba(255,211,107,.12); }
-    .match { font-size:19px; font-weight:800; line-height:1.35; }
-    .tip-details { display:grid; gap:6px; color:var(--muted); font-size:14px; }
-    .tip-details strong { color:var(--text); }
-    .result { font-weight:800; color:var(--green); }
-    .result.lost { color:var(--red); }
-    .result.void { color:var(--yellow); }
-    .empty { padding:25px; border:1px dashed var(--border); border-radius:14px; color:var(--muted); text-align:center; grid-column:1/-1; }
-    .telegram-panel {
-      display:flex; align-items:center; justify-content:space-between; gap:25px;
-      flex-wrap:wrap;
-      background:radial-gradient(ellipse at 100% 0%,rgba(66,230,149,.12),transparent 55%),var(--panel);
+
+    .btn-dark {
+      background: var(--panel2);
+      color: var(--text);
+      border-color: var(--border);
     }
-    .telegram-panel p { max-width:650px; }
-    .pricing { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; max-width:850px; margin:25px auto 0; }
-    .price-card { padding:28px; }
-    .price { font-size:34px; font-weight:900; color:var(--green); margin:12px 0; }
-    .price-card ul { padding-left:20px; color:var(--muted); }
-    .price-card li { margin:8px 0; }
-    .featured { border-color:rgba(66,230,149,.5); }
-    .paypal-button { margin-top:18px; min-height:45px; }
-    .auth-layout { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
-    .field { display:grid; gap:7px; margin:13px 0; }
-    .field label { font-size:14px; color:var(--muted); }
+
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .full { width: 100%; }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 26px 0 13px;
+    }
+
+    .cards { display: grid; gap: 12px; }
+
+    .card {
+      min-width: 0;
+      padding: 17px;
+      background: linear-gradient(145deg, #19191d, #121214);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 13px;
+    }
+
+    .tag {
+      display: inline-flex;
+      padding: 5px 9px;
+      border-radius: 7px;
+      background: #e7bd6417;
+      color: var(--gold2);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .teams {
+      font-size: 17px;
+      font-weight: 850;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    .pick {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      background: #ffffff06;
+      border-radius: 11px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .odds {
+      color: var(--gold2);
+      font-size: 19px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+      margin-top: 17px;
+    }
+
+    .stat {
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    .stat-value {
+      display: block;
+      color: var(--gold2);
+      font-size: 24px;
+      font-weight: 950;
+      margin-bottom: 5px;
+    }
+
+    .pricing {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .price-card {
+      position: relative;
+      border: 1px solid var(--border);
+      background: linear-gradient(150deg, #211d15, #151518 65%);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .price {
+      font-size: 32px;
+      font-weight: 950;
+      color: var(--gold2);
+      margin: 13px 0 3px;
+    }
+
+    .price-card.featured {
+      border-color: #e7bd6480;
+      box-shadow: 0 0 30px #e7bd6410;
+    }
+
+    .form {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
     .field input {
-      width:100%; min-width:0; padding:12px 13px; color:var(--text);
-      background:#081810; border:1px solid var(--border); border-radius:9px; outline:none;
+      width: 100%;
+      padding: 13px;
+      color: var(--text);
+      background: #0c0c0e;
+      border: 1px solid #39352d;
+      border-radius: 11px;
+      outline: none;
     }
-    .field input:focus { border-color:var(--green); }
-    .notice { display:none; padding:12px 14px; border-radius:10px; margin:14px 0; background:rgba(66,230,149,.1); border:1px solid rgba(66,230,149,.25); overflow-wrap:anywhere; }
-    .notice.error { background:rgba(255,119,119,.1); border-color:rgba(255,119,119,.3); }
-    .account-row { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
-    .small { font-size:13px; }
-    footer { border-top:1px solid var(--border); padding:28px 0; color:var(--muted); font-size:13px; }
-    .footer-row { display:flex; justify-content:space-between; flex-wrap:wrap; gap:18px; }
-    .hidden { display:none !important; }
-    @media(max-width:800px) {
-      .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .nav { justify-content:center; }
-      nav { justify-content:center; }
-      .hero { padding-top:55px; }
+
+    .field input:focus { border-color: var(--gold); }
+
+    .notice {
+      display: none;
+      padding: 12px;
+      border-radius: 10px;
+      background: #e7bd6412;
+      border: 1px solid var(--border);
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+      font-size: 13px;
+      line-height: 1.5;
     }
-    @media(max-width:560px) {
-      .grid,.pricing,.auth-layout { grid-template-columns:1fr; }
-      .panel,.tip-card,.price-card { padding:18px; }
-      .hero p { font-size:16px; }
-      nav { gap:12px; font-size:13px; }
-      .btn { width:100%; }
-      .actions { width:100%; }
+
+    .notice.show { display: block; }
+    .notice.error { border-color: #ff737355; }
+    .notice.success { border-color: #53d69a55; }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      padding: 9px 5px calc(8px + env(safe-area-inset-bottom));
+      background: rgba(16,16,18,.97);
+      border-top: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 5px 1px;
+      border: 0;
+      color: #99958d;
+      background: transparent;
+      font-size: 10px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .nav-btn .nav-icon { font-size: 20px; }
+    .nav-btn.active { color: var(--gold2); }
+
+    .empty {
+      padding: 23px 16px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed #504630;
+      border-radius: 15px;
+      line-height: 1.6;
+    }
+
+    .telegram-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px;
+      margin-top: 11px;
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 14px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 20px 0;
+    }
+
+    footer {
+      padding: 18px 5px 4px;
+      color: var(--muted);
+      font-size: 11px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    [hidden] { display: none !important; }
+
+    @media (min-width: 600px) {
+      .page { padding-top: 28px; }
+      .pricing { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .stat-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+      .hero { padding: 34px; }
     }
   </style>
 </head>
 
 <body>
-<header>
-  <div class="container nav">
-    <a class="logo" href="#home" aria-label="Tippking főoldal">
-      <span class="crown">♛</span><span>TIPP<span>KING</span></span>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Tippking főoldal">
+      <span class="brand-icon">♛</span>
+      <span>TIPP<span class="gold">KING</span></span>
     </a>
-    <nav>
-  <a href="#ingyenes">Aktuális tippek</a>
-  <a href="#nyertes">Nyertes tippek</a>
-  <a href="#vesztes">Vesztes tippek</a>
-  <a href="#telegram">Telegram</a>
-  <a href="#vip">VIP</a>
-  <a href="#fiok">Fiókom</a>
-    </nav>
-  </div>
-</header>
+    <span id="accountBadge" class="tag">Vendég</span>
+  </header>
 
-<main>
-  <section class="hero" id="home">
-    <div class="container">
-      <div class="eyebrow">Tippking • Sport és elemzés</div>
-      <h1>Gondolkodj előre.<br><span>Fogadj felelősen.</span></h1>
-      <p>Kövesd az ingyenes sportfogadási tippeket, olvasd el az elemzéseket, és ismerd meg a VIP-tagság lehetőségeit.</p>
-      <div class="actions">
-        <a class="btn btn-primary" href="#ingyenes">Ingyenes tippek</a>
-        <a class="btn btn-secondary" href="#vip">VIP-tagság</a>
+  <main>
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="eyebrow">A játék a pályán dől el</div>
+        <h1>Gondolkodj.<br><span class="gold">Elemezz.</span><br>Fogadj felelősen.</h1>
+        <p class="muted">Mérkőzések, sporttippek és elemzések egy helyen, átlátható formában.</p>
+        <button class="btn btn-gold" onclick="navigate('tips')">Tippek megtekintése →</button>
+        <button class="btn btn-dark" onclick="navigate('vip')">VIP-tagság</button>
       </div>
-    </div>
-  </section>
 
-  <section id="ingyenes">
-    <div class="container">
-  <div class="panel" style="margin-bottom:24px;text-align:center;">
-    <div class="eyebrow">Csatlakozz ingyen!</div>
-    <h2>📢 Tippking Telegram-csoport</h2>
-    <p class="muted">
-      Kövesd az ingyenes tippeket és értesülj az újdonságokról!
-    </p>
-    <a
-      href="https://t.me/kingtipphun"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="btn"
-    >
-      Belépés az ingyenes Telegram-csoportba
-    </a>
-  </div>
-    </div>
-    <div class="container">
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="stat-value" id="statTips">—</span>
+          <span class="muted small">Megjelenített tippek</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="statWon">—</span>
+          <span class="muted small">Nyertes eredmények</span>
+        </div>
+      </div>
+
       <div class="section-head">
-        <div>
-          <div class="eyebrow">Mindenki számára</div>
-          <h2>Ingyenes tippek</h2>
-          <div class="muted">A közzétett ingyenes tippek és elemzések.</div>
+        <h2>Friss tippek</h2>
+        <button class="btn btn-dark" onclick="navigate('tips')">Mind →</button>
+      </div>
+      <div id="homeTips" class="cards">
+        <div class="empty">Tippek betöltése…</div>
+      </div>
+
+      <footer>
+        A sportfogadás pénzügyi kockázattal jár. Nincs garantált nyeremény.
+        Csak saját felelősségre, mértékkel fogadj.
+      </footer>
+    </section>
+
+    <section id="tips" class="page">
+      <div class="eyebrow">Mérkőzéselemzések</div>
+      <h1>Sport<span class="gold">tippek</span></h1>
+      <p class="muted">A közzétett tippek és a hozzájuk tartozó elemzések.</p>
+      <div id="tipsList" class="cards">
+        <div class="empty">Tippek betöltése…</div>
+      </div>
+      <div class="divider"></div>
+      <p class="muted small">A feltüntetett oddsok változhatnak. A múltbeli eredmény nem garantál jövőbeli nyereséget.</p>
+    </section>
+
+    <section id="results" class="page">
+      <div class="eyebrow">Átlátható eredmények</div>
+      <h1>Tippek <span class="gold">eredményei</span></h1>
+      <p class="muted">Az eredmények kizárólag akkor jelennek meg, ha az adatbázis jogosultságai lehetővé teszik a nyilvános olvasást.</p>
+      <div class="stat-grid">
+        <div class="stat">
+          <span class="stat-value" id="resultWon">—</span>
+          <span class="muted small">Nyertes tippek</span>
         </div>
-        <button class="btn btn-secondary" id="refreshFree" type="button">Frissítés</button>
-      </div>
-      <div id="freeNotice" class="notice" role="status"></div>
-      <div id="freeTips" class="grid"><div class="empty">Tippek betöltése...</div></div>
-    </div>
-  </section>
-<section id="nyertes">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow">Korábbi eredmények</div>
-        <h2>Nyertes tippek</h2>
-        <p class="muted">A lezárt nyertes ingyenes tippek.</p>
-      </div>
-    </div>
-    <div id="wonTips" class="grid">
-      <div class="empty">Eredmények betöltése...</div>
-    </div>
-  </div>
-</section>
-
-<section id="vesztes">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow">Korábbi eredmények</div>
-        <h2>Vesztes tippek</h2>
-        <p class="muted">A lezárt vesztes ingyenes tippek.</p>
-      </div>
-    </div>
-    <div id="lostTips" class="grid">
-      <div class="empty">Eredmények betöltése...</div>
-    </div>
-  </div>
-</section>
- 
-  <section id="statisztikak">
-  <div class="container">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow">Tippking eredmények</div>
-        <h2>Statisztikák</h2>
-        <p class="muted">
-          A lezárt tippek összesített eredményei.
-        </p>
-      </div>
-    </div>
-
-    <div class="grid">
-      <div class="panel">
-        <div class="muted">Lezárt tippek</div>
-        <h2 id="statsTotal">0</h2>
-      </div>
-
-      <div class="panel">
-        <div class="muted">Találati arány</div>
-        <h2 id="statsHitRate">0%</h2>
-      </div>
-
-      <div class="panel">
-        <div class="muted">Profit / veszteség</div>
-        <h2 id="statsProfit">Számításra vár</h2>
-      </div>
-    </div>
-
-    <p class="muted small">
-      A statisztika a lezárt tippek adataiból készül.
-      A múltbeli eredmények nem garantálják a jövőbeli sikert.
-    </p>
-  </div>
-  </section>
-  
-  <section id="telegram">
-    <div class="container">
-      <div class="panel telegram-panel">
-        <div>
-          <div class="eyebrow">Csatlakozz hozzánk</div>
-          <h2>Ingyenes Telegram-csoport</h2>
-          <p class="muted">Kövesd a Tippking ingyenes tippjeit és híreit Telegramon is. Csatlakozz a közösséghez!</p>
-        </div>
-        <a class="btn btn-primary" href="https://t.me/kingtipphun" target="_blank" rel="noopener noreferrer">Belépés a Telegram-csoportba</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="vip">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <div class="eyebrow">Prémium hozzáférés</div>
-          <h2>Tippking VIP</h2>
-          <p class="muted">VIP-tippek és elemzések aktív tagsággal.</p>
+        <div class="stat">
+          <span class="stat-value" id="resultLost">—</span>
+          <span class="muted small">Vesztes tippek</span>
         </div>
       </div>
-
-      <div id="vipMemberPanel" class="panel hidden">
-        <div class="account-row">
-          <div><div class="eyebrow">Tagság</div><h3>Aktív VIP-tagság</h3><p id="vipExpiry" class="muted"></p></div>
-          <button id="telegramInvite" class="btn btn-primary" type="button">VIP Telegram-belépés kérése</button>
-        </div>
-        <p class="muted small">A belépési linket a szervernek kell ellenőrzötten, jogosultság alapján kiadnia.</p>
+      <div class="section-head"><h2>Lezárt tippek</h2></div>
+      <div id="resultsList" class="cards">
+        <div class="empty">Eredmények betöltése…</div>
       </div>
+    </section>
 
-      <div id="vipLocked" class="panel">
-        <h3>VIP-tippek csak tagoknak</h3>
-        <p class="muted">Jelentkezz be aktív VIP-fiókkal a prémium tippek megtekintéséhez.</p>
-        <a href="#fiok" class="btn btn-secondary">Bejelentkezés</a>
-      </div>
+    <section id="vip" class="page">
+      <div class="eyebrow">Prémium tagság</div>
+      <h1>TIPP<span class="gold">KING VIP</span></h1>
+      <p class="muted">Prémium tartalmak és VIP-tagság. A hozzáférés csak sikeresen ellenőrzött fizetés után aktiválódik.</p>
 
-      <div id="vipNotice" class="notice" role="status"></div>
-      <div id="vipTips" class="grid hidden"></div>
+      <div id="vipNotice" class="notice" role="status" aria-live="polite"></div>
+      <div id="vipStatus" class="card" hidden></div>
 
-      <div class="pricing">
-        <div class="price-card">
-          <div class="eyebrow">Rugalmas hozzáférés</div>
-          <h3>Heti VIP</h3>
-          <div class="price">3 990 Ft</div>
-          <ul>
-            <li>VIP-tippek aktív tagság alatt</li>
-            <li>Prémium elemzések</li>
-            <li>VIP Telegram-hozzáférés kérésének lehetősége</li>
-          </ul>
-          <div id="paypal-weekly" class="paypal-button"></div>
-        </div>
+      <div id="vipPlans" class="pricing">
+        <article class="price-card">
+          <span class="tag">HETI TAGSÁG</span>
+          <div class="price">3 999 Ft</div>
+          <p class="muted small">7 napos tagság</p>
+          <div id="paypal-weekly" class="paypal-container"></div>
+        </article>
 
-        <div class="price-card featured">
-          <div class="eyebrow">Hosszabb hozzáférés</div>
-          <h3>Havi VIP</h3>
+        <article class="price-card featured">
+          <span class="tag">HAVI TAGSÁG</span>
           <div class="price">9 990 Ft</div>
-          <ul>
-            <li>VIP-tippek aktív tagság alatt</li>
-            <li>Prémium elemzések</li>
-            <li>VIP Telegram-hozzáférés kérésének lehetősége</li>
-          </ul>
-          <div id="paypal-monthly" class="paypal-button"></div>
-        </div>
+          <p class="muted small">30 napos tagság</p>
+          <div id="paypal-monthly" class="paypal-container"></div>
+        </article>
       </div>
 
-      <p class="muted small" style="text-align:center;margin-top:18px">
-        A tényleges fizetési összeget a PayPal-gomb beállítása határozza meg. Fizetés előtt ellenőrizd az összeget, az időtartamot és a feltételeket.
-      </p>
-    </div>
-  </section>
+      <p class="muted small">A fizetés előtt jelentkezz be. A fizetési folyamat során ne frissítsd az oldalt, amíg az ellenőrzés tart.</p>
 
-  <section id="fiok">
-    <div class="container">
-      <div class="eyebrow">Felhasználói fiók</div>
-      <h2>Bejelentkezés és regisztráció</h2>
-      <p class="muted">A VIP-tagság ellenőrzéséhez be kell jelentkezned.</p>
-      <div id="authNotice" class="notice" role="status"></div>
+      <div class="divider"></div>
+      <h2>Telegram-csoportok</h2>
 
-      <div id="authForms" class="auth-layout">
-        <div class="panel">
-          <h3>Bejelentkezés</h3>
-          <form id="loginForm">
-            <div class="field"><label for="loginEmail">E-mail-cím</label><input id="loginEmail" type="email" autocomplete="email" required></div>
-            <div class="field"><label for="loginPassword">Jelszó</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
-            <button class="btn btn-primary" type="submit">Belépés</button>
-          </form>
-        </div>
+      <a class="telegram-link" href="https://t.me/kingtipphun" target="_blank" rel="noopener noreferrer">
+        <span><strong>Ingyenes Telegram</strong><br><span class="muted small">Nyilvános csoport</span></span>
+        <span class="gold">Megnyitás ↗</span>
+      </a>
 
-        <div class="panel">
-          <h3>Új fiók létrehozása</h3>
-          <form id="signupForm">
-            <div class="field"><label for="signupEmail">E-mail-cím</label><input id="signupEmail" type="email" autocomplete="email" required></div>
-            <div class="field"><label for="signupPassword">Jelszó (legalább 8 karakter)</label><input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required></div>
-            <button class="btn btn-primary" type="submit">Regisztráció</button>
-          </form>
-          <p class="muted small">A regisztráció után e-mailes megerősítésre is szükség lehet.</p>
-        </div>
+      <a id="vipTelegramLink" class="telegram-link" href="https://t.me/+ei6VjWv4mhs5Zjk0" target="_blank" rel="noopener noreferrer" hidden>
+        <span><strong>VIP Telegram</strong><br><span class="muted small">VIP-tagok részére</span></span>
+        <span class="gold">Megnyitás ↗</span>
+      </a>
+
+      <p class="muted small">A VIP Telegram-meghívó hivatkozása a weboldal forrásában látható lehet. A link önmagában nem ellenőrzi a tagságot.</p>
+    </section>
+
+    <section id="account" class="page">
+      <div class="eyebrow">Személyes fiók</div>
+      <h1>Fiók<span class="gold">kezelés</span></h1>
+      <div id="authNotice" class="notice" role="status" aria-live="polite"></div>
+
+      <div id="loggedOutPanel" class="card">
+        <h2>Bejelentkezés</h2>
+        <p class="muted small">Használd a Tippking-regisztrációdhoz tartozó e-mail-címet.</p>
+
+        <form id="loginForm" class="form">
+          <label class="field">E-mail-cím
+            <input id="loginEmail" type="email" autocomplete="email" required>
+          </label>
+          <label class="field">Jelszó
+            <input id="loginPassword" type="password" autocomplete="current-password" required>
+          </label>
+          <button class="btn btn-gold full" type="submit">Bejelentkezés</button>
+        </form>
+
+        <div class="divider"></div>
+        <h3>Új fiók létrehozása</h3>
+        <form id="signupForm" class="form">
+          <label class="field">E-mail-cím
+            <input id="signupEmail" type="email" autocomplete="email" required>
+          </label>
+          <label class="field">Jelszó (legalább 8 karakter)
+            <input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required>
+          </label>
+          <button class="btn btn-dark full" type="submit">Regisztráció</button>
+        </form>
       </div>
 
-      <div id="loggedInPanel" class="panel hidden">
-        <div class="account-row">
-          <div><h3>Bejelentkezve</h3><p id="accountEmail" class="muted"></p><p id="accountStatus" class="muted"></p></div>
-          <button id="logoutButton" class="btn btn-secondary" type="button">Kijelentkezés</button>
-        </div>
+      <div id="loggedInPanel" class="card" hidden>
+        <span class="muted small">Bejelentkezve</span>
+        <h2 id="userEmail" style="overflow-wrap:anywhere;margin-top:8px">—</h2>
+        <div class="divider"></div>
+        <div id="accountVipStatus" class="muted">Tagság ellenőrzése…</div>
+        <div class="divider"></div>
+        <button class="btn btn-gold full" onclick="navigate('vip')">VIP-tagság megtekintése</button>
+        <button class="btn btn-dark full" style="margin-top:10px" onclick="signOut()">Kijelentkezés</button>
       </div>
-    </div>
-  </section>
 
-  <section id="felelosseg">
-    <div class="container">
-      <div class="panel">
-        <h3>Felelős sportfogadás</h3>
-        <p class="muted">
-          A sportfogadás pénzügyi kockázattal jár. Nincs biztos nyerő tipp, és a korábbi eredmények nem garantálják a jövőbeli sikert.
-          Csak annyit kockáztass, amennyinek az elvesztése nem veszélyezteti a megélhetésedet. Ne fogadj kölcsönből, és ne próbáld a veszteséget újabb fogadásokkal visszanyerni.
-        </p>
-        <p class="muted small">A Tippking információs célú tippeket és elemzéseket tesz közzé, nem garantál nyereséget.</p>
+      <div class="card" style="margin-top:14px">
+        <h3>Adminfelület</h3>
+        <p class="muted small">A meglévő külön adminoldal megnyitása.</p>
+        <a class="btn btn-dark full" href="./admin.html">Admin megnyitása ↗</a>
       </div>
-    </div>
-  </section>
-</main>
+    </section>
+  </main>
 
-<footer>
-  <div class="container footer-row">
-    <div>© <span id="year"></span> Tippking</div>
-    <div>Sportfogadás csak felelősen, 18 éven felülieknek.</div>
-  </div>
-</footer>
+  <nav class="bottom-nav" aria-label="Fő navigáció">
+    <button class="nav-btn active" data-page="home" onclick="navigate('home')">
+      <span class="nav-icon">⌂</span><span>Kezdőlap</span>
+    </button>
+    <button class="nav-btn" data-page="tips" onclick="navigate('tips')">
+      <span class="nav-icon">⚽</span><span>Tippek</span>
+    </button>
+    <button class="nav-btn" data-page="results" onclick="navigate('results')">
+      <span class="nav-icon">▤</span><span>Eredmények</span>
+    </button>
+    <button class="nav-btn" data-page="vip" onclick="navigate('vip')">
+      <span class="nav-icon">♛</span><span>VIP</span>
+    </button>
+    <button class="nav-btn" data-page="account" onclick="navigate('account')">
+      <span class="nav-icon">●</span><span>Fiók</span>
+    </button>
+  </nav>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-"use strict";
+  <!-- A meglévő Supabase-projekt beállításai -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = "https://wtioblmrnpdceqvqxtbj.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_KwMyxHE9CSiaFugV0TmB-Q_xiqlhz9m";
 
-const SUPABASE_URL = "https://wtioblmrnpdceqvqxtbj.supabase.co";
-const SUPABASE_KEY = "sb_publishable_KwMyxHE9CSiaFugV0TmB-Q_xiqlhz9m";
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const $ = (id) => document.getElementById(id);
+    let currentSession = null;
+    let paypalRendered = false;
+    let publicTips = [];
+    let resultTips = [];
+    let vipMembership = null;
 
-let currentSession = null;
-let activeVip = false;
-let authCheckRunning = false;
+    const $ = (id) => document.getElementById(id);
 
-$("year").textContent = new Date().getFullYear();
-
-function showNotice(id, message, isError = false) {
-  const el = $(id);
-  el.textContent = message;
-  el.classList.toggle("error", isError);
-  el.style.display = "block";
-}
-function hideNotice(id) {
-  const el = $(id);
-  el.textContent = "";
-  el.style.display = "none";
-  el.classList.remove("error");
-}
-function escapeHtml(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
-  })[char]);
-}
-function formatDate(value) {
-  if (!value) return "Nincs megadva";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "Nincs megadva";
-  return new Intl.DateTimeFormat("hu-HU", {
-    year:"numeric", month:"long", day:"numeric", hour:"2-digit", minute:"2-digit"
-  }).format(date);
-}
-function statusLabel(status) {
-  return ({published:"Közzétéve", won:"Nyertes", lost:"Vesztes", void:"Érvénytelen"})[status] || "Közzétéve";
-}
-function statusClass(status) {
-  if (status === "lost") return "lost";
-  if (status === "void") return "void";
-  return "";
-}
-function tipCard(tip, isVip = false) {
-  const category = tip.category === "eredmeny" ? "Eredmény" :
-    tip.category === "gol" ? "Gólok" : (tip.category || "Tipp");
-  const market = tip.market || "Részletek a tippben";
-  const odds = tip.odds !== null && tip.odds !== undefined
-    ? Number(tip.odds).toLocaleString("hu-HU", {maximumFractionDigits:2})
-    : "Nincs megadva";
-  const match = [tip.home_team, tip.away_team].filter(Boolean).map(escapeHtml).join(" – ") || "Mérkőzés";
-
-  return `
-    <article class="tip-card">
-      <div class="tip-top">
-        <span class="tag ${isVip ? "tag-vip" : ""}">${isVip ? "VIP" : "INGYENES"}</span>
-        <span class="tag">${escapeHtml(category)}</span>
-      </div>
-      <div class="match">${match}</div>
-      <div class="tip-details">
-        <div>🏆 <strong>${escapeHtml(tip.league || "Labdarúgás")}</strong></div>
-        <div>🕒 ${escapeHtml(formatDate(tip.match_time))}</div>
-        <div>🎯 Tipp: <strong>${escapeHtml(market)}</strong></div>
-        <div>📈 Odds: <strong>${escapeHtml(odds)}</strong></div>
-        ${tip.status && ["won","lost","void"].includes(tip.status)
-          ? `<div class="result ${statusClass(tip.status)}">Eredmény: ${escapeHtml(statusLabel(tip.status))}</div>` : ""}
-      </div>
-      ${tip.analysis ? `<div class="muted">${escapeHtml(tip.analysis).replace(/\n/g,"<br>")}</div>` : ""}
-    </article>`;
-}
-
-async function loadFreeTips() {
-  hideNotice("freeNotice");
-  const freeTips = $("freeTips");
-  freeTips.innerHTML = '<div class="empty">Ingyenes tippek betöltése...</div>';
-
-  try {
-    const {data, error} = await supabaseClient
-      .from("tips")
-      .select("id,league,home_team,away_team,match_time,category,market,odds,status,is_vip,analysis,created_at")
-      .eq("status", "published")
-      .eq("is_vip", false)
-      .order("created_at", {ascending:false})
-      .limit(50);
-
-    if (error) throw error;
-
-    if (!data || data.length === 0) {
-      freeTips.innerHTML = '<div class="empty">Jelenleg nincs közzétett ingyenes tipp. Ellenőrizd az adminban a tipp státuszát és az ingyenes/VIP beállítást.</div>';
-      return;
+    function showNotice(id, message, isError = false) {
+      const el = $(id);
+      if (!el) return;
+      el.textContent = message;
+      el.className = "notice show" + (isError ? " error" : " success");
     }
-    freeTips.innerHTML = data.map(tip => tipCard(tip, false)).join("");
-  } catch (error) {
-    console.error("Ingyenes tippek betöltése:", error);
-    freeTips.innerHTML = '<div class="empty">A tippek betöltése sikertelen. Próbáld újra a Frissítés gombbal.</div>';
-    showNotice("freeNotice", "Supabase-hiba: ellenőrizd a kapcsolatot és a tips tábla olvasási jogosultságait (RLS).", true);
-  }
-}
-async function loadResultTips() {
-  const wonTips = $("wonTips");
-  const lostTips = $("lostTips");
 
-  try {
-    const columns =
-      "id,league,home_team,away_team,match_time,category,market,odds,status,is_vip,analysis,created_at";
-
-    const [wonResult, lostResult] = await Promise.all([
-      supabaseClient
-        .from("tips")
-        .select(columns)
-        .eq("is_vip", false)
-        .eq("status", "won")
-        .order("created_at", { ascending: false })
-        .limit(50),
-
-      supabaseClient
-        .from("tips")
-        .select(columns)
-        .eq("is_vip", false)
-        .eq("status", "lost")
-        .order("created_at", { ascending: false })
-        .limit(50)
-    ]);
-
-    if (wonResult.error) throw wonResult.error;
-    if (lostResult.error) throw lostResult.error;
-
-    wonTips.innerHTML = wonResult.data.length
-      ? wonResult.data.map(tip => tipCard(tip, false)).join("")
-      : '<div class="empty">Még nincs lezárt nyertes ingyenes tipp.</div>';
-
-    lostTips.innerHTML = lostResult.data.length
-      ? lostResult.data.map(tip => tipCard(tip, false)).join("")
-      : '<div class="empty">Még nincs lezárt vesztes ingyenes tipp.</div>';
-
-  } catch (error) {
-    console.error("Lezárt tippek betöltése:", error);
-
-    wonTips.innerHTML =
-      '<div class="empty">A nyertes tippek betöltése sikertelen.</div>';
-
-    lostTips.innerHTML =
-      '<div class="empty">A vesztes tippek betöltése sikertelen.</div>';
-  }
-      }
-async function loadVipTips() {
-  $("vipTips").innerHTML = "";
-  $("vipTips").classList.add("hidden");
-  if (!currentSession || !activeVip) return;
-
-  try {
-    const {data, error} = await supabaseClient
-      .from("tips")
-      .select("id,league,home_team,away_team,match_time,category,market,odds,status,analysis,created_at")
-      .eq("status", "published")
-      .eq("is_vip", true)
-      .order("created_at", {ascending:false})
-      .limit(50);
-
-    if (error) throw error;
-    $("vipTips").innerHTML = data && data.length
-      ? data.map(tip => tipCard(tip, true)).join("")
-      : '<div class="empty">Jelenleg nincs közzétett VIP-tipp.</div>';
-    $("vipTips").classList.remove("hidden");
-  } catch (error) {
-    console.error("VIP-tippek betöltése:", error);
-    showNotice("vipNotice", "Nem sikerült betölteni a VIP-tippek listáját. Ellenőrizd a tagsági RLS-szabályokat.", true);
-  }
-}
-
-async function checkVipMembership() {
-  activeVip = false;
-  $("vipMemberPanel").classList.add("hidden");
-  $("vipLocked").classList.remove("hidden");
-  $("vipTips").classList.add("hidden");
-  $("vipTips").innerHTML = "";
-  hideNotice("vipNotice");
-  if (!currentSession) return;
-
-  try {
-    const {data, error} = await supabaseClient
-      .from("vip_members")
-      .select("status,expires_at,plan")
-      .eq("user_id", currentSession.user.id)
-      .eq("status", "active")
-      .gt("expires_at", new Date().toISOString())
-      .order("expires_at", {ascending:false})
-      .limit(1);
-
-    if (error) throw error;
-    if (data && data.length) {
-      activeVip = true;
-      $("vipMemberPanel").classList.remove("hidden");
-      $("vipLocked").classList.add("hidden");
-      $("vipExpiry").textContent = "Lejárat: " + formatDate(data[0].expires_at) +
-        (data[0].plan ? " • Csomag: " + data[0].plan : "");
-      await loadVipTips();
+    function clearNotice(id) {
+      const el = $(id);
+      if (!el) return;
+      el.textContent = "";
+      el.className = "notice";
     }
-  } catch (error) {
-    console.error("VIP-tagság ellenőrzése:", error);
-    showNotice("vipNotice", "A VIP-tagság nem ellenőrizhető. Ellenőrizd, hogy létezik-e a vip_members tábla, és megfelelőek-e az RLS-szabályok.", true);
-  }
-}
 
-async function updateAuthUI() {
-  if (authCheckRunning) return;
-  authCheckRunning = true;
-  try {
-    const {data, error} = await supabaseClient.auth.getSession();
-    if (error) throw error;
-    currentSession = data.session;
-
-    if (currentSession) {
-      $("authForms").classList.add("hidden");
-      $("loggedInPanel").classList.remove("hidden");
-      $("accountEmail").textContent = currentSession.user.email || "";
-      $("accountStatus").textContent = "A VIP-hozzáférés ellenőrzése folyamatban...";
-      await checkVipMembership();
-      $("accountStatus").textContent = activeVip ? "Aktív VIP-tagság" : "Nincs aktív VIP-tagság";
-    } else {
-      $("authForms").classList.remove("hidden");
-      $("loggedInPanel").classList.add("hidden");
-      $("accountEmail").textContent = "";
-      $("accountStatus").textContent = "";
-      await checkVipMembership();
+    function safeText(value, fallback = "—") {
+      return value === null || value === undefined || value === ""
+        ? fallback
+        : String(value);
     }
-  } catch (error) {
-    console.error("Fiók állapotának lekérése:", error);
-    showNotice("authNotice", "Nem sikerült ellenőrizni a bejelentkezést. Frissítsd az oldalt.", true);
-  } finally {
-    authCheckRunning = false;
-  }
-}
 
-$("loginForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  hideNotice("authNotice");
-  const email = $("loginEmail").value.trim();
-  const password = $("loginPassword").value;
-  const {error} = await supabaseClient.auth.signInWithPassword({email, password});
-  if (error) {
-    showNotice("authNotice", error.message, true);
-    return;
-  }
-  showNotice("authNotice", "Sikeres bejelentkezés.");
-  await updateAuthUI();
-});
-
-$("signupForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  hideNotice("authNotice");
-  const email = $("signupEmail").value.trim();
-  const password = $("signupPassword").value;
-  if (password.length < 8) {
-    showNotice("authNotice", "A jelszónak legalább 8 karakteresnek kell lennie.", true);
-    return;
-  }
-  const {data, error} = await supabaseClient.auth.signUp({
-    email, password,
-    options:{emailRedirectTo:window.location.origin + window.location.pathname}
-  });
-  if (error) {
-    showNotice("authNotice", error.message, true);
-    return;
-  }
-  showNotice("authNotice", data.session
-    ? "Sikeres regisztráció és bejelentkezés."
-    : "A regisztráció sikerült. Ha szükséges, erősítsd meg az e-mail-címedet, majd jelentkezz be.");
-  await updateAuthUI();
-});
-
-$("logoutButton").addEventListener("click", async () => {
-  const {error} = await supabaseClient.auth.signOut();
-  if (error) {
-    showNotice("authNotice", error.message, true);
-    return;
-  }
-  showNotice("authNotice", "Sikeresen kijelentkeztél.");
-  await updateAuthUI();
-});
-
-$("refreshFree").addEventListener("click", loadFreeTips);
-
-$("telegramInvite").addEventListener("click", async () => {
-  hideNotice("vipNotice");
-  if (!currentSession || !activeVip) {
-    showNotice("vipNotice", "Ehhez aktív VIP-tagság és bejelentkezés szükséges.", true);
-    return;
-  }
-  const button = $("telegramInvite");
-  button.disabled = true;
-  button.textContent = "Ellenőrzés...";
-  try {
-    const {data, error} = await supabaseClient.functions.invoke("vip-telegram-invite", {body:{}});
-    if (error) throw error;
-    if (!data || !data.url) throw new Error("A szerver nem adott vissza belépési linket.");
-    const url = new URL(data.url);
-    if (url.protocol !== "https:" || !(url.hostname === "t.me" || url.hostname.endsWith(".t.me"))) {
-      throw new Error("Érvénytelen Telegram-link.");
+    function formatDate(value) {
+      if (!value) return "Időpont nincs megadva";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return safeText(value);
+      return date.toLocaleString("hu-HU", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
     }
-    window.open(url.href, "_blank", "noopener,noreferrer");
-  } catch (error) {
-    console.error("VIP Telegram-belépés:", error);
-    showNotice("vipNotice", "A VIP Telegram-belépéshez a vip-telegram-invite szerverfunkciónak működnie kell.", true);
-  } finally {
-    button.disabled = false;
-    button.textContent = "VIP Telegram-belépés kérése";
-  }
-});
 
-supabaseClient.auth.onAuthStateChange(() => {
-  setTimeout(() => updateAuthUI(), 0);
-});
+    function navigate(page) {
+      const allowed = ["home", "tips", "results", "vip", "account"];
+      if (!allowed.includes(page)) page = "home";
 
-// PayPal Hosted Buttons. Az azonosítók a korábbi fájlból származnak.
-// A fizetés önmagában nem aktivál VIP-tagságot: ahhoz biztonságos
-// szerveroldali fizetésellenőrzés és tagságfrissítés szükséges.
-let paypalRendered = false;
+      document.querySelectorAll(".page").forEach(section => {
+        section.classList.toggle("active", section.id === page);
+      });
 
-function renderPayPalButtons() {
-  if (paypalRendered || !window.paypal?.Buttons) return;
+      document.querySelectorAll(".nav-btn").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === page);
+      });
 
-  paypalRendered = true;
+      history.replaceState(null, "", "#" + page);
 
-  function createVipButton(container, plan) {
-    window.paypal.Buttons({
-      createOrder: async () => {
-        if (!currentSession) {
-          showNotice("vipNotice", "Fizetés előtt jelentkezz be a Tippkingbe.", true);
-          throw new Error("Bejelentkezés szükséges.");
-        }
+      if (page === "vip") renderPayPalButtons();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-        const { data, error } = await supabaseClient.functions.invoke(
-          "paypal-create-order",
-          { body: { plan } }
-        );
+    function renderTipCard(tip, showResult = false) {
+      const card = document.createElement("article");
+      card.className = "card";
 
-        if (error || !data?.id) {
-          console.error("Rendelés létrehozása:", error, data);
-          showNotice("vipNotice", "Nem sikerült létrehozni a PayPal-rendelést.", true);
-          throw new Error("A rendelés létrehozása sikertelen.");
-        }
+      const top = document.createElement("div");
+      top.className = "card-top";
 
-        return data.id;
-      },
+      const category = document.createElement("span");
+      category.className = "tag";
+      category.textContent = safeText(tip.league, "Mérkőzés");
 
-      onApprove: async (data) => {
-        showNotice("vipNotice", "Fizetés ellenőrzése folyamatban...");
+      const date = document.createElement("span");
+      date.className = "muted small";
+      date.textContent = formatDate(tip.match_time);
 
-        const { data: result, error } = await supabaseClient.functions.invoke(
-          "paypal-capture-order",
-          { body: { orderId: data.orderID } }
-        );
+      top.append(category, date);
 
-        if (error || !result?.success || !result?.vipActivated) {
-          console.error("Fizetés véglegesítése:", error, result);
-          showNotice(
-            "vipNotice",
-            "A fizetés ellenőrzése nem fejeződött be. Ne fizess újra; frissítés előtt ellenőrizzük a tranzakciót.",
-            true
-          );
-          return;
-        }
+      const teams = document.createElement("div");
+      teams.className = "teams";
+      teams.textContent =
+        safeText(tip.home_team, "Hazai csapat") +
+        " – " +
+        safeText(tip.away_team, "Vendégcsapat");
 
-        showNotice("vipNotice", "Sikeres fizetés! A VIP-tagságod aktiválódott.");
-        await updateAuthUI();
-      },
+      card.append(top, teams);
 
-      onCancel: () => {
-        showNotice("vipNotice", "A fizetést megszakítottad.");
-      },
+      const pick = document.createElement("div");
+      pick.className = "pick";
 
-      onError: (error) => {
-  console.error("PayPal-hiba részletei:", error);
+      const pickInfo = document.createElement("div");
+      const market = document.createElement("strong");
+      market.textContent = safeText(tip.market, "Tipp nincs megadva");
+      const categoryText = document.createElement("div");
+      categoryText.className = "muted small";
+      categoryText.textContent = safeText(tip.category, "Sporttipp");
+      pickInfo.append(market, categoryText);
 
-  const message = error?.message || String(error) || "Ismeretlen hiba";
+      const odds = document.createElement("span");
+      odds.className = "odds";
+      odds.textContent = tip.odds != null ? Number(tip.odds).toFixed(2) : "—";
 
-  showNotice(
-    "vipNotice",
-    "PayPal-hiba: " + message,
-    true
-  );
-    }).render(container);
-  }
+      pick.append(pickInfo, odds);
+      card.append(pick);
 
-  try {
-    createVipButton("#paypal-weekly", "weekly");
-    createVipButton("#paypal-monthly", "monthly");
-  } catch (error) {
-    paypalRendered = false;
-    console.error("PayPal-gombok:", error);
-    showNotice("vipNotice", "A PayPal-gombok nem tölthetők be.", true);
-  }
-}
-  
-
-loadFreeTips();
-loadResultTips();
-updateAuthUI();;
-</script>
-
-
-<script
-  src="https://www.paypal.com/sdk/js?client-id=BAANPW_EqSrR8ZotE2_m4U6zDOzaMnJcN78tNPw0uQ-3u2dnAENi78PZhMuUmzPmK5WGpBgXlgwmYIC6tU&components=buttons&currency=HUF"
-  onload="renderPayPalButtons()"
-  defer>
-</script>
-  
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const pageSections = [
-    "ingyenes",
-    "nyertes",
-    "vesztes",
-    "statisztikak",
-    "telegram",
-    "vip",
-    "fiok"
-  ];
-
-  function showPage() {
-    const requested = location.hash.replace("#", "");
-    const page = pageSections.includes(requested)
-      ? requested
-      : "ingyenes";
-
-    pageSections.forEach(id => {
-      const section = document.getElementById(id);
-      if (section) {
-        section.hidden = id !== page;
-      }
-    });
-
-    const selected = document.getElementById(page);
-    if (selected) selected.hidden = false;
-
-    window.scrollTo(0, 0);
-  }
-
-  window.addEventListener("hashchange", showPage);
-  showPage();
-});
-</script>
-
-</body>
-</html>
+      if (showResult) {
+        const result = document.cre
