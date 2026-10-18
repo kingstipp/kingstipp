@@ -760,8 +760,16 @@ function renderPayPalButtons() {
       },
 
       onError: (error) => {
-        console.error("PayPal-hiba:", error);
-        showNotice("vipNotice", "Hiba történt a PayPal-fizetés során.", true);
+  console.error("PayPal-hiba részletei:", error);
+
+  const message = error?.message || String(error) || "Ismeretlen hiba";
+
+  showNotice(
+    "vipNotice",
+    "PayPal-hiba: " + message,
+    true
+  );
+      }
       }
     }).render(container);
   }
