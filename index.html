@@ -705,8 +705,6 @@ supabaseClient.auth.onAuthStateChange(() => {
 // A fizetés önmagában nem aktivál VIP-tagságot: ahhoz biztonságos
 // szerveroldali fizetésellenőrzés és tagságfrissítés szükséges.
 let paypalRendered = false;
-  
-let paypalRendered = false;
 
 function renderPayPalButtons() {
   if (paypalRendered || !window.paypal?.Buttons) return;
