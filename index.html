@@ -617,20 +617,25 @@
         minute: "2-digit"
       });
     }
+const
+    
+function navigate(page) {
+  const allowed = ["home", "tips", "results", "vip", "account"];
 
-    function navigate(page) {
-      const allowed = ["home", "tips", "results", "vip", "account"];
-      if (!allowed.includes(page)) page = "home";
+  if (!allowed.includes(page)) {
+    page = "home";
+  }
 
-      document.querySelectorAll(".page").forEach(section => {
-        section.classList.toggle("active", section.id === page);
-      });
+  document.querySelectorAll(".page").forEach(section => {
+    section.classList.toggle("active", section.id === page);
+  });
 
-      document.querySelectorAll(".nav-btn").forEach(button => {
-        button.classList.toggle("active", button.dataset.page === page);
-      });
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === page);
+  });
 
-      history.replaceState(null, "", "#" + page);
+  history.replaceState(null, "", "#" + page);
+}
 
       if (page === "vip") renderPayPalButtons();
       window.scrollTo({ top: 0, behavior: "smooth" });
