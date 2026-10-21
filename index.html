@@ -70,7 +70,114 @@ async function loadTips(){const grid=$('tipsGrid');grid.innerHTML='<div class="e
 async function loadResults(){const grid=$('resultsGrid');grid.innerHTML='<div class="empty">Eredmények betöltése…</div>';hideNotice('resultsNotice');if(!db&&!initDb()){grid.innerHTML='<div class="empty">Az eredmények most nem tölthetők be.</div>';return;}try{const {data,error}=await db.from('tips').select('id,league,home_team,away_team,match_time,category,market,odds,status,is_vip,analysis,created_at').in('status',['won','lost','void']).eq('is_vip',false).order('match_time',{ascending:false}).limit(60);if(error)throw error;if(!data||!data.length){grid.innerHTML='<div class="empty">Még nincs lezárt ingyenes tipp az eredmények között.</div>';return;}const labels={won:'NYERTES',lost:'VESZTES',void:'ÉRVÉNYTELEN'};const classes={won:'green',lost:'red',void:'gold'};grid.innerHTML=data.map(t=>`<article class="card"><div class="meta"><span class="pill gold">${escapeHtml(t.league||'Sport')}</span><span>${escapeHtml(formatDate(t.match_time))}</span></div><div class="match">${escapeHtml(t.home_team||'')} <span style="color:var(--gold)">vs.</span> ${escapeHtml(t.away_team||'')}</div><div class="rule"></div><div class="muted" style="font-size:11px">PIAC / TIPP</div><div style="font-weight:800;margin-top:5px">${escapeHtml(t.market||'Tipp nincs megadva')}</div><div class="odd">${escapeHtml(t.odds??'—')} <span style="font-size:11px;color:#aaa;font-weight:600">ODDS</span></div>${t.analysis?`<p class="analysis">${escapeHtml(t.analysis)}</p>`:''}<div class="meta"><span>${escapeHtml(t.category||'')}</span><span class="pill ${classes[t.status]||''}">${labels[t.status]||escapeHtml(t.status)}</span></div></article>`).join('');}catch(e){grid.innerHTML='<div class="empty">Az eredmények nem tölthetők be.</div>';showNotice('resultsNotice','Az adatbázis nem engedi a lezárt tippek olvasását, vagy hiba történt. Ha nincs RLS-olvasási szabály a won/lost/void állapotokra, a Supabase-ben azt külön be kell állítani.','err');}}
 async function checkAdmin(){isAdmin=false;if(!db||!currentUser)return false;try{const {data,error}=await db.from('site_admins').select('user_id').eq('user_id',currentUser.id).maybeSingle();if(error){console.warn('Admin ellenőrzés:',error.message);return false;}isAdmin=!!data;return isAdmin;}catch(e){console.warn(e);return false;}}
 async function updateAccount(){if(!db)return;try{const {data}=await db.auth.getSession();currentUser=data?.session?.user||null;if(currentUser){const admin=await checkAdmin();$('accountState').innerHTML='<span class="statusDot"></span>Bejelentkezve: '+escapeHtml(currentUser.email)+(admin?' · Admin jogosultság aktív':' · Felhasználói fiók');if(admin){$('admin').classList.remove('hidden');await loadAdminTips();}}else{$('accountState').textContent='Nincs bejelentkezve.';isAdmin=false;$('admin').classList.add('hidden');}}catch(e){$('accountState').textContent='A fiók állapota nem ellenőrizhető.';}}
-$('loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!db&&!initDb())return;const btn=$('loginBtn');btn.disabled=true;btn.textContent='Belépés…';hideNotice('authNotice');try{const {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;currentUser=data.user;await updateAccount();if(isAdmin){showNotice('authNotice','Sikeres belépés, admin jogosultság rendben.','ok');showSection('admin');}else{showNotice('authNotice','Sikeres belépés. Ehhez a fiókhoz nincs admin jogosultság.','info');}}catch(err){showNotice('authNotice','Nem sikerült belépni: '+(err.message||'Ellenőrizd az e-mail címet és a jelszót.'),'err');}finally{btn.disabled=false;btn.textContent='Belépés';}});
+
+let authMode = 'login';
+
+function toggleAuthMode() {
+  authMode = authMode === 'login' ? 'signup' : 'login';
+
+  $('authTitle').textContent =
+    authMode === 'login' ? 'Belépés' : 'Regisztráció';
+
+  $('authDescription').textContent =
+    authMode === 'login'
+      ? 'Lépj be a meglévő fiókodba, vagy regisztrálj új fiókot.'
+      : 'Hozz létre fiókot az e-mail címeddel és egy legalább 6 karakteres jelszóval.';
+
+  $('loginBtn').textContent =
+    authMode === 'login' ? 'Belépés' : 'Regisztráció';
+
+  $('authSwitchBtn').textContent =
+    authMode === 'login'
+      ? 'Még nincs fiókod? Regisztráció'
+      : 'Már van fiókod? Belépés';
+
+  $('password').autocomplete =
+    authMode === 'login' ? 'current-password' : 'new-password';
+
+  hideNotice('authNotice');
+}
+
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+
+  if (!db && !initDb()) return;
+
+  const btn = $('loginBtn');
+  btn.disabled = true;
+  btn.textContent = authMode === 'login'
+    ? 'Belépés…'
+    : 'Regisztráció…';
+
+  hideNotice('authNotice');
+
+  try {
+    const email = $('email').value.trim();
+    const password = $('password').value;
+
+    if (authMode === 'signup') {
+      const { data, error } = await db.auth.signUp({
+        email,
+        password
+      });
+
+      if (error) throw error;
+
+      if (data.session && data.user) {
+        currentUser = data.user;
+        await updateAccount();
+
+        showNotice(
+          'authNotice',
+          'Sikeres regisztráció! Bejelentkeztél.',
+          'ok'
+        );
+      } else {
+        showNotice(
+          'authNotice',
+          'A regisztráció elindult. Ha e-mailes megerősítést kér a rendszer, nyisd meg a leveledben kapott linket, majd jelentkezz be.',
+          'ok'
+        );
+      }
+    } else {
+      const { data, error } = await db.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) throw error;
+
+      currentUser = data.user;
+      await updateAccount();
+
+      if (isAdmin) {
+        showNotice(
+          'authNotice',
+          'Sikeres belépés, admin jogosultság rendben.',
+          'ok'
+        );
+        showSection('admin');
+      } else {
+        showNotice(
+          'authNotice',
+          'Sikeres belépés.',
+          'ok'
+        );
+      }
+    }
+  } catch (err) {
+    showNotice(
+      'authNotice',
+      'Hiba: ' + (err.message || 'Ellenőrizd az adatokat.'),
+      'err'
+    );
+  } finally {
+    btn.disabled = false;
+    btn.textContent =
+      authMode === 'login' ? 'Belépés' : 'Regisztráció';
+  }
+});
+  {e.preventDefault();if(!db&&!initDb())return;const btn=$('loginBtn');btn.disabled=true;btn.textContent='Belépés…';hideNotice('authNotice');try{const {data,error}=await db.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error)throw error;currentUser=data.user;await updateAccount();if(isAdmin){showNotice('authNotice','Sikeres belépés, admin jogosultság rendben.','ok');showSection('admin');}else{showNotice('authNotice','Sikeres belépés. Ehhez a fiókhoz nincs admin jogosultság.','info');}}catch(err){showNotice('authNotice','Nem sikerült belépni: '+(err.message||'Ellenőrizd az e-mail címet és a jelszót.'),'err');}finally{btn.disabled=false;btn.textContent='Belépés';}});
 async function signOut(){if(!db&&!initDb())return;try{const {error}=await db.auth.signOut();if(error)throw error;currentUser=null;isAdmin=false;$('admin').classList.add('hidden');$('accountState').textContent='Kijelentkezve.';showNotice('authNotice','Sikeresen kijelentkeztél.','ok');showSection('account');}catch(e){showNotice('authNotice','Kijelentkezési hiba: '+e.message,'err');}}
 function resetTipForm(){ $('tipForm').reset();$('tipId').value='';$('tipFormTitle').textContent='Új tipp';$('status').value='draft';$('isVip').value='false'; }
 $('tipForm').addEventListener('submit',async e=>{e.preventDefault();if(!db||!isAdmin){showNotice('adminNotice','Nincs admin jogosultság vagy lejárt a munkamenet.','err');return;}const id=$('tipId').value;const matchTime=new Date($('matchTime').value);if(Number.isNaN(matchTime.getTime())){showNotice('adminNotice','Adj meg érvényes kezdési időpontot.','err');return;}const row={league:$('league').value.trim(),home_team:$('homeTeam').value.trim(),away_team:$('awayTeam').value.trim(),match_time:matchTime.toISOString(),category:$('category').value,market:$('market').value.trim(),odds:Number($('odds').value),status:$('status').value,is_vip:$('isVip').value==='true',analysis:$('analysis').value.trim()};try{let result;if(id)result=await db.from('tips').update(row).eq('id',id);else result=await db.from('tips').insert(row);if(result.error)throw result.error;showNotice('adminNotice',id?'A tipp módosítása sikerült.':'A tipp mentése sikerült.','ok');resetTipForm();await loadAdminTips();await loadTips();}catch(err){showNotice('adminNotice','Mentési hiba: '+(err.message||'Ismeretlen hiba')+'. Ellenőrizd az admin RLS szabályokat és a táblamezőket.','err');}});
