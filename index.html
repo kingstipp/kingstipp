@@ -88,10 +88,6 @@ async function loadTips(){const grid=$('tipsGrid');grid.innerHTML='<div class="e
 async function loadVipTips() {
   const grid = $('vipTipsGrid');
   if (!grid) return;
-   if (!membership) {
-  grid.innerHTML = '<div class="empty">Nincs aktív VIP-tagság.</div>';
-  return;
-   }
 
   if (!db || !currentUser) {
     grid.innerHTML = '<div class="empty">A VIP-tippekhez jelentkezz be.</div>';
@@ -115,7 +111,10 @@ async function loadVipTips() {
       grid.innerHTML = '<div class="empty">Nincs aktív VIP-tagság.</div>';
       return;
     }
-
+const vipButton = $('vipTelegramButton');
+if (vipButton) {
+  vipButton.classList.remove('hidden');
+}
     const { data, error } = await db
       .from('tips')
       .select('id, league, home_team, away_team, match_time, category, market, odds, analysis')
