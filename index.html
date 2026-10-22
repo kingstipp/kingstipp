@@ -88,6 +88,10 @@ async function loadTips(){const grid=$('tipsGrid');grid.innerHTML='<div class="e
 async function loadVipTips() {
   const grid = $('vipTipsGrid');
   if (!grid) return;
+   if (!membership) {
+  grid.innerHTML = '<div class="empty">Nincs aktív VIP-tagság.</div>';
+  return;
+   }
 
   if (!db || !currentUser) {
     grid.innerHTML = '<div class="empty">A VIP-tippekhez jelentkezz be.</div>';
