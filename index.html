@@ -67,6 +67,72 @@ function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,c=>({'&':
 function formatDate(value){if(!value)return 'Időpont nincs megadva';const d=new Date(value);if(Number.isNaN(d.getTime()))return escapeHtml(value);return d.toLocaleString('hu-HU',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});}
 function initDb(){if(!window.supabase||!window.supabase.createClient){showNotice('tipsNotice','A Supabase kliens nem töltődött be. Ellenőrizd az internetkapcsolatot, majd frissítsd az oldalt.','err');return false;}try{db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);return true;}catch(e){showNotice('tipsNotice','Supabase inicializálási hiba: '+e.message,'err');return false;}}
 async function loadTips(){const grid=$('tipsGrid');grid.innerHTML='<div class="empty">Tippek betöltése…</div>';hideNotice('tipsNotice');if(!db){if(!initDb()){grid.innerHTML='<div class="empty">A tippek most nem tölthetők be.</div>';return;}}try{const {data,error}=await db.from('tips').select('id,league,home_team,away_team,match_time,category,market,odds,status,is_vip,analysis,created_at').eq('status','published').eq('is_vip',false).order('match_time',{ascending:true}).limit(60);if(error)throw error;if(!data||!data.length){grid.innerHTML='<div class="empty">Jelenleg nincs publikált ingyenes tipp. Nézz vissza később!</div>';return;}grid.innerHTML=data.map(t=>`<article class="card"><div class="meta"><span class="pill gold">${escapeHtml(t.league||'Sport')}</span><span>${escapeHtml(formatDate(t.match_time))}</span></div><div class="match">${escapeHtml(t.home_team)} <span style="color:var(--gold)">vs.</span> ${escapeHtml(t.away_team)}</div><div class="rule"></div><div class="muted" style="font-size:11px">PIAC / TIPP</div><div style="font-weight:800;margin-top:5px">${escapeHtml(t.market||'Tipp nincs megadva')}</div><div class="odd">${escapeHtml(t.odds??'—')} <span style="font-size:11px;color:#aaa;font-weight:600">ODDS</span></div>${t.analysis?`<p class="analysis">${escapeHtml(t.analysis)}</p>`:''}<div class="meta"><span>${escapeHtml(t.category||'')}</span><span class="pill green">Publikált</span></div></article>`).join('');}catch(e){grid.innerHTML='<div class="empty">A tippek betöltése sikertelen.</div>';showNotice('tipsNotice','Adatbázis hiba: '+(e.message||'Ismeretlen hiba')+'. Ellenőrizd a Supabase kulcsot, a Data API-t és az RLS olvasási szabályt.','err');}}
+
+async function loadVipTips() {
+  const grid = $('vipTipsGrid');
+  if (!grid) return;
+
+  if (!db || !currentUser) {
+    grid.innerHTML = '<div class="empty">A VIP-tippekhez jelentkezz be.</div>';
+    return;
+  }
+
+  grid.innerHTML = '<div class="empty">VIP-tippek betöltése…</div>';
+
+  try {
+    const { data: membership, error: membershipError } = await db
+      .from('vip_members')
+      .select('status, expires_at')
+      .eq('user_id', currentUser.id)
+      .eq('status', 'active')
+      .gt('expires_at', new Date().toISOString())
+      .maybeSingle();
+
+    if (membershipError) throw membershipError;
+
+    if (!membership) {
+      grid.innerHTML = '<div class="empty">Nincs aktív VIP-tagság.</div>';
+      return;
+    }
+
+    const { data, error } = await db
+      .from('tips')
+      .select('id, league, home_team, away_team, match_time, category, market, odds, analysis')
+      .eq('status', 'published')
+      .eq('is_vip', true)
+      .order('match_time', { ascending: true })
+      .limit(60);
+
+    if (error) throw error;
+
+    if (!data || !data.length) {
+      grid.innerHTML = '<div class="empty">Jelenleg nincs publikált VIP-tipp.</div>';
+      return;
+    }
+
+    grid.innerHTML = data.map(t => `
+      <article class="card">
+        <div class="meta">
+          <span class="pill gold">${escapeHtml(t.league || 'Sport')}</span>
+          <span>${escapeHtml(formatDate(t.match_time))}</span>
+        </div>
+        <div class="match">
+          ${escapeHtml(t.home_team)} <span style="color:var(--gold)">vs.</span> ${escapeHtml(t.away_team)}
+        </div>
+        <div class="rule"></div>
+        <div class="muted" style="font-size:11px">PIAC / TIPP</div>
+        <div style="font-weight:800;margin-top:5px">${escapeHtml(t.market || 'Tipp nincs megadva')}</div>
+        <div class="odd">${escapeHtml(t.odds ?? '—')} <span style="font-size:11px;color:#aaa;font-weight:600">ODDS</span></div>
+        ${t.analysis ? `<p class="analysis">${escapeHtml(t.analysis)}</p>` : ''}
+        <div class="meta"><span>${escapeHtml(t.category || '')}</span><span class="pill gold">VIP</span></div>
+      </article>
+    `).join('');
+  } catch (e) {
+    console.error('VIP-tippek betöltési hiba:', e);
+    grid.innerHTML = '<div class="empty">A VIP-tippek most nem tölthetők be.</div>';
+  }
+}
+  
 async function loadResults(){const grid=$('resultsGrid');grid.innerHTML='<div class="empty">Eredmények betöltése…</div>';hideNotice('resultsNotice');if(!db&&!initDb()){grid.innerHTML='<div class="empty">Az eredmények most nem tölthetők be.</div>';return;}try{const {data,error}=await db.from('tips').select('id,league,home_team,away_team,match_time,category,market,odds,status,is_vip,analysis,created_at').in('status',['won','lost','void']).eq('is_vip',false).order('match_time',{ascending:false}).limit(60);if(error)throw error;if(!data||!data.length){grid.innerHTML='<div class="empty">Még nincs lezárt ingyenes tipp az eredmények között.</div>';return;}const labels={won:'NYERTES',lost:'VESZTES',void:'ÉRVÉNYTELEN'};const classes={won:'green',lost:'red',void:'gold'};grid.innerHTML=data.map(t=>`<article class="card"><div class="meta"><span class="pill gold">${escapeHtml(t.league||'Sport')}</span><span>${escapeHtml(formatDate(t.match_time))}</span></div><div class="match">${escapeHtml(t.home_team||'')} <span style="color:var(--gold)">vs.</span> ${escapeHtml(t.away_team||'')}</div><div class="rule"></div><div class="muted" style="font-size:11px">PIAC / TIPP</div><div style="font-weight:800;margin-top:5px">${escapeHtml(t.market||'Tipp nincs megadva')}</div><div class="odd">${escapeHtml(t.odds??'—')} <span style="font-size:11px;color:#aaa;font-weight:600">ODDS</span></div>${t.analysis?`<p class="analysis">${escapeHtml(t.analysis)}</p>`:''}<div class="meta"><span>${escapeHtml(t.category||'')}</span><span class="pill ${classes[t.status]||''}">${labels[t.status]||escapeHtml(t.status)}</span></div></article>`).join('');}catch(e){grid.innerHTML='<div class="empty">Az eredmények nem tölthetők be.</div>';showNotice('resultsNotice','Az adatbázis nem engedi a lezárt tippek olvasását, vagy hiba történt. Ha nincs RLS-olvasási szabály a won/lost/void állapotokra, a Supabase-ben azt külön be kell állítani.','err');}}
 async function checkAdmin(){isAdmin=false;if(!db||!currentUser)return false;try{const {data,error}=await db.from('site_admins').select('user_id').eq('user_id',currentUser.id).maybeSingle();if(error){console.warn('Admin ellenőrzés:',error.message);return false;}isAdmin=!!data;return isAdmin;}catch(e){console.warn(e);return false;}}
 async function updateAccount(){if(!db)return;try{const {data}=await db.auth.getSession();currentUser=data?.session?.user||null;if(currentUser){const admin=await checkAdmin();$('accountState').innerHTML='<span class="statusDot"></span>Bejelentkezve: '+escapeHtml(currentUser.email)+(admin?' · Admin jogosultság aktív':' · Felhasználói fiók');if(admin){$('admin').classList.remove('hidden');await loadAdminTips();}}else{$('accountState').textContent='Nincs bejelentkezve.';isAdmin=false;$('admin').classList.add('hidden');}}catch(e){$('accountState').textContent='A fiók állapota nem ellenőrizhető.';}}
